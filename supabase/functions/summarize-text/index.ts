@@ -14,9 +14,9 @@ Deno.serve(async (req) => {
   try {
     const { text } = await req.json();
 
-    if (!text || typeof text !== "string" || text.trim().length < 30) {
+    if (!text || typeof text !== "string" || text.trim().length < 5) {
       return new Response(
-        JSON.stringify({ error: "Please provide at least 30 characters of text." }),
+        JSON.stringify({ error: "Please provide at least 5 characters of text." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         messages: [
           {
             role: "system",
