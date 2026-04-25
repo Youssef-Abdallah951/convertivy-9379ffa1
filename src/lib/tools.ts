@@ -1,5 +1,4 @@
 import {
-  FileText,
   Braces,
   Sparkles,
   Image as ImageIcon,
