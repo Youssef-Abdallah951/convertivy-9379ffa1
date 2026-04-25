@@ -16,6 +16,7 @@ import FileToLink from "./pages/tools/FileToLink.tsx";
 import LinkToFile from "./pages/tools/LinkToFile.tsx";
 import CodeGenerator from "./pages/tools/CodeGenerator.tsx";
 import UnitConverter from "./pages/tools/UnitConverter.tsx";
+import PhotoLocation from "./pages/tools/PhotoLocation.tsx";
 
 const queryClient = new QueryClient();
 
