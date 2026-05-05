@@ -8,7 +8,6 @@ import {
   Download,
   Code2,
   Ruler,
-  Video,
   type LucideIcon,
 } from "lucide-react";
 
@@ -93,13 +92,5 @@ export const tools: Tool[] = [
     icon: Ruler,
     category: "Utilities",
     keywords: ["unit", "converter", "length", "weight", "temperature", "time", "speed", "data", "measurement"],
-  },
-  {
-    slug: "video-compressor",
-    title: "Video Compressor",
-    description: "Compress videos in your browser with adjustable quality, resolution, and format.",
-    icon: Video,
-    category: "Media",
-    keywords: ["video", "compress", "ffmpeg", "mp4", "webm", "shrink", "reduce", "size"],
   },
 ];
