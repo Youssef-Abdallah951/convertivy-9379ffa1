@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
-import { Search, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, Sparkles, Coins } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
 import { Input } from "@/components/ui/input";
 import { tools } from "@/lib/tools";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserCredits } from "@/hooks/useUserCredits";
 
 const Index = () => {
   const [query, setQuery] = useState("");
