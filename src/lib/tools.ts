@@ -18,7 +18,18 @@ export type Tool = {
   icon: LucideIcon;
   category: "Text" | "Developer" | "AI" | "Media" | "Files" | "QR" | "Utilities";
   keywords: string[];
+  /** Premium tools deduct credits per use. Free tools never charge. */
+  premium: boolean;
 };
+
+/** Credits deducted each time a premium tool is used. */
+export const CREDIT_COST = 2;
+
+/** Tools that are always free and never deduct credits. */
+export const FREE_TOOL_SLUGS = ["json-formatter", "study-timer"] as const;
+
+export const isPremiumTool = (slug: string) =>
+  !FREE_TOOL_SLUGS.includes(slug as (typeof FREE_TOOL_SLUGS)[number]);
 
 export const tools: Tool[] = [
   {
