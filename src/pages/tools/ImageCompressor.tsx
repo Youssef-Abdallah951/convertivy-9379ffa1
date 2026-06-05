@@ -157,6 +157,7 @@ const ImageCompressor = () => {
           </div>
         )}
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };
