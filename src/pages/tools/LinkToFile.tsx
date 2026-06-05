@@ -192,6 +192,7 @@ const LinkToFile = () => {
           )}
         </div>
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };
