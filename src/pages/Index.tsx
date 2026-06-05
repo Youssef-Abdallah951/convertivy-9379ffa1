@@ -10,6 +10,9 @@ import { useUserCredits } from "@/hooks/useUserCredits";
 
 const Index = () => {
   const [query, setQuery] = useState("");
+  const { user } = useAuth();
+  const { credits } = useUserCredits();
+
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
