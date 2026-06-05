@@ -20,45 +20,50 @@ const FileToQr = () => {
   const [qr, setQr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const handleFile = async (file: File) => {
     if (file.size > MAX_BYTES) {
       toast.error("File too large. Max 25 MB.");
       return;
     }
-    setFileName(file.name);
-    setUrl(null);
-    setQr(null);
-    setLoading(true);
-    try {
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${crypto.randomUUID()}/${safeName}`;
-      const { error } = await supabase.storage
-        .from("shared-files")
-        .upload(path, file, { contentType: file.type || "application/octet-stream" });
+    await withCredits(async () => {
+      setFileName(file.name);
+      setUrl(null);
+      setQr(null);
+      setLoading(true);
+      try {
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${crypto.randomUUID()}/${safeName}`;
+        const { error } = await supabase.storage
+          .from("shared-files")
+          .upload(path, file, { contentType: file.type || "application/octet-stream" });
 
-      if (error) {
-        toast.error(error.message);
-        return;
+        if (error) {
+          toast.error(error.message);
+          throw error;
+        }
+
+        const { data } = supabase.storage.from("shared-files").getPublicUrl(path);
+        setUrl(data.publicUrl);
+
+        const dataUrl = await QRCode.toDataURL(data.publicUrl, {
+          width: 512,
+          margin: 2,
+          errorCorrectionLevel: "M",
+        });
+        setQr(dataUrl);
+        toast.success("QR code generated");
+      } catch (e) {
+        console.error(e);
+        toast.error("Upload failed. Please try again.");
+        throw e;
+      } finally {
+        setLoading(false);
       }
-
-      const { data } = supabase.storage.from("shared-files").getPublicUrl(path);
-      setUrl(data.publicUrl);
-
-      const dataUrl = await QRCode.toDataURL(data.publicUrl, {
-        width: 512,
-        margin: 2,
-        errorCorrectionLevel: "M",
-      });
-      setQr(dataUrl);
-      toast.success("QR code generated");
-    } catch (e) {
-      console.error(e);
-      toast.error("Upload failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
+
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
