@@ -289,11 +289,22 @@ const UnitConverter = () => {
             </div>
           </div>
 
+          <div className="mt-6">
+            <Button
+              onClick={handleConvert}
+              disabled={input.trim() === "" || !!error}
+              className="w-full gradient-primary text-primary-foreground shadow-glow sm:w-auto"
+            >
+              <Sparkles className="mr-1.5 h-4 w-4" />
+              Convert ({CREDIT_COST} credits)
+            </Button>
+          </div>
+
           {error && (
             <p className="mt-4 text-sm text-destructive">{error}</p>
           )}
 
-          {!error && result && input.trim() !== "" && (
+          {revealed && !error && result && input.trim() !== "" && (
             <p className="mt-6 rounded-xl bg-muted/40 p-4 text-center text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">{input}</span>{" "}
               {units.find((u) => u.value === fromUnit)?.label.match(/\(([^)]+)\)/)?.[1] ?? fromUnit}{" "}
@@ -304,6 +315,7 @@ const UnitConverter = () => {
           )}
         </div>
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };
