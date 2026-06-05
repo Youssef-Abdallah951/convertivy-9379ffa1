@@ -39,6 +39,7 @@ const CodeGenerator = () => {
   const [output, setOutput] = useState("");
   const [outputAction, setOutputAction] = useState<Action>("generate");
   const [loading, setLoading] = useState<Action | null>(null);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const run = async (action: Action) => {
     const input = action === "generate" ? prompt : output || prompt;
@@ -48,32 +49,35 @@ const CodeGenerator = () => {
       return;
     }
 
-    setLoading(action);
-    try {
-      const { data, error } = await supabase.functions.invoke("generate-code", {
-        body: { prompt: input, language, action },
-      });
+    await withCredits(async () => {
+      setLoading(action);
+      try {
+        const { data, error } = await supabase.functions.invoke("generate-code", {
+          body: { prompt: input, language, action },
+        });
 
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
 
-      setOutput(data.result ?? "");
-      setOutputAction(action);
-      toast.success(
-        action === "generate"
-          ? "Code generated"
-          : action === "explain"
-          ? "Explanation ready"
-          : action === "improve"
-          ? "Code improved"
-          : "Code fixed",
-      );
-    } catch (e: any) {
-      console.error("generate-code error:", e);
-      toast.error(e?.message ?? "Something went wrong");
-    } finally {
-      setLoading(null);
-    }
+        setOutput(data.result ?? "");
+        setOutputAction(action);
+        toast.success(
+          action === "generate"
+            ? "Code generated"
+            : action === "explain"
+            ? "Explanation ready"
+            : action === "improve"
+            ? "Code improved"
+            : "Code fixed",
+        );
+      } catch (e: any) {
+        console.error("generate-code error:", e);
+        toast.error(e?.message ?? "Something went wrong");
+        throw e;
+      } finally {
+        setLoading(null);
+      }
+    });
   };
 
   const copy = async () => {
