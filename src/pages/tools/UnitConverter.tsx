@@ -268,7 +268,11 @@ const UnitConverter = () => {
                 To
               </label>
               <div className="mb-2 flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-lg font-semibold text-foreground">
-                {error ? <span className="text-sm font-normal text-muted-foreground">—</span> : result || <span className="text-sm font-normal text-muted-foreground">—</span>}
+                {revealed && !error && result ? (
+                  result
+                ) : (
+                  <span className="text-sm font-normal text-muted-foreground">—</span>
+                )}
               </div>
               <Select value={toUnit} onValueChange={setToUnit}>
                 <SelectTrigger>
