@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import { tools } from "@/lib/tools";
+import { useCreditGuard } from "@/hooks/useCreditGuard";
+import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 
 const tool = tools.find((t) => t.slug === "image-compressor")!;
 
@@ -28,32 +30,36 @@ const ImageCompressor = () => {
   const [maxSizeMB, setMaxSizeMB] = useState(0.5);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       toast.error("Please select a valid image file.");
       return;
     }
-    setOriginal({ url: URL.createObjectURL(file), size: file.size, name: file.name });
-    setCompressed(null);
-    setLoading(true);
-    try {
-      const blob = await imageCompression(file, {
-        maxSizeMB,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true,
-      });
-      setCompressed({
-        url: URL.createObjectURL(blob),
-        size: blob.size,
-        name: `compressed-${file.name}`,
-      });
-      toast.success("Image compressed successfully");
-    } catch (e) {
-      toast.error("Failed to compress image. Try a different file.");
-    } finally {
-      setLoading(false);
-    }
+    await withCredits(async () => {
+      setOriginal({ url: URL.createObjectURL(file), size: file.size, name: file.name });
+      setCompressed(null);
+      setLoading(true);
+      try {
+        const blob = await imageCompression(file, {
+          maxSizeMB,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        });
+        setCompressed({
+          url: URL.createObjectURL(blob),
+          size: blob.size,
+          name: `compressed-${file.name}`,
+        });
+        toast.success("Image compressed successfully");
+      } catch (e) {
+        toast.error("Failed to compress image. Try a different file.");
+        throw e;
+      } finally {
+        setLoading(false);
+      }
+    });
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -151,6 +157,7 @@ const ImageCompressor = () => {
           </div>
         )}
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };

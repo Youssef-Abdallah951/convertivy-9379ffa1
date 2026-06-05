@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { ArrowLeftRight } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowLeftRight, Sparkles } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ToolPageHeader } from "@/components/ToolPageHeader";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { tools } from "@/lib/tools";
+import { toast } from "sonner";
+import { tools, CREDIT_COST } from "@/lib/tools";
+import { useCreditGuard } from "@/hooks/useCreditGuard";
+import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 
 const tool = tools.find((t) => t.slug === "unit-converter")!;
 
@@ -132,6 +135,8 @@ const UnitConverter = () => {
   const [fromUnit, setFromUnit] = useState<string>(CATEGORIES.length.units[0].value);
   const [toUnit, setToUnit] = useState<string>(CATEGORIES.length.units[1].value);
   const [input, setInput] = useState<string>("1");
+  const [revealed, setRevealed] = useState(false);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const handleCategoryChange = (next: CategoryKey) => {
     setCategory(next);
@@ -167,6 +172,26 @@ const UnitConverter = () => {
 
     return { result: formatResult(converted), error: "" };
   }, [input, fromUnit, toUnit, category]);
+
+  // Require a fresh conversion (and credit charge) whenever the inputs change.
+  useEffect(() => {
+    setRevealed(false);
+  }, [input, fromUnit, toUnit, category]);
+
+  const handleConvert = async () => {
+    if (input.trim() === "") {
+      toast.error("Please enter a value to convert.");
+      return;
+    }
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    const ok = await withCredits(async () => {
+      /* conversion is computed locally; charge applies on a successful convert */
+    });
+    if (ok) setRevealed(true);
+  };
 
   const units = CATEGORIES[category].units;
 
@@ -243,7 +268,11 @@ const UnitConverter = () => {
                 To
               </label>
               <div className="mb-2 flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-lg font-semibold text-foreground">
-                {error ? <span className="text-sm font-normal text-muted-foreground">—</span> : result || <span className="text-sm font-normal text-muted-foreground">—</span>}
+                {revealed && !error && result ? (
+                  result
+                ) : (
+                  <span className="text-sm font-normal text-muted-foreground">—</span>
+                )}
               </div>
               <Select value={toUnit} onValueChange={setToUnit}>
                 <SelectTrigger>
@@ -260,11 +289,22 @@ const UnitConverter = () => {
             </div>
           </div>
 
+          <div className="mt-6">
+            <Button
+              onClick={handleConvert}
+              disabled={input.trim() === "" || !!error}
+              className="w-full gradient-primary text-primary-foreground shadow-glow sm:w-auto"
+            >
+              <Sparkles className="mr-1.5 h-4 w-4" />
+              Convert ({CREDIT_COST} credits)
+            </Button>
+          </div>
+
           {error && (
             <p className="mt-4 text-sm text-destructive">{error}</p>
           )}
 
-          {!error && result && input.trim() !== "" && (
+          {revealed && !error && result && input.trim() !== "" && (
             <p className="mt-6 rounded-xl bg-muted/40 p-4 text-center text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">{input}</span>{" "}
               {units.find((u) => u.value === fromUnit)?.label.match(/\(([^)]+)\)/)?.[1] ?? fromUnit}{" "}
@@ -275,6 +315,7 @@ const UnitConverter = () => {
           )}
         </div>
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };

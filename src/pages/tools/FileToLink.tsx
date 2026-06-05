@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { tools } from "@/lib/tools";
 import { supabase } from "@/integrations/supabase/client";
+import { useCreditGuard } from "@/hooks/useCreditGuard";
+import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 
 const tool = tools.find((t) => t.slug === "file-to-link")!;
 const MAX_BYTES = 25 * 1024 * 1024; // 25 MB
@@ -16,36 +18,40 @@ const FileToLink = () => {
   const [url, setUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const handleFile = async (file: File) => {
     if (file.size > MAX_BYTES) {
       toast.error("File too large. Max 25 MB.");
       return;
     }
-    setFileName(file.name);
-    setUrl(null);
-    setLoading(true);
-    try {
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${crypto.randomUUID()}/${safeName}`;
-      const { error } = await supabase.storage
-        .from("shared-files")
-        .upload(path, file, { contentType: file.type || "application/octet-stream" });
+    await withCredits(async () => {
+      setFileName(file.name);
+      setUrl(null);
+      setLoading(true);
+      try {
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${crypto.randomUUID()}/${safeName}`;
+        const { error } = await supabase.storage
+          .from("shared-files")
+          .upload(path, file, { contentType: file.type || "application/octet-stream" });
 
-      if (error) {
-        toast.error(error.message);
-        return;
+        if (error) {
+          toast.error(error.message);
+          throw error;
+        }
+
+        const { data } = supabase.storage.from("shared-files").getPublicUrl(path);
+        setUrl(data.publicUrl);
+        toast.success("Link generated");
+      } catch (e) {
+        console.error(e);
+        toast.error("Upload failed. Please try again.");
+        throw e;
+      } finally {
+        setLoading(false);
       }
-
-      const { data } = supabase.storage.from("shared-files").getPublicUrl(path);
-      setUrl(data.publicUrl);
-      toast.success("Link generated");
-    } catch (e) {
-      console.error(e);
-      toast.error("Upload failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -160,6 +166,7 @@ const FileToLink = () => {
           </div>
         )}
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };

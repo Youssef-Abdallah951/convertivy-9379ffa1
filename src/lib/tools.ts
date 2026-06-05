@@ -18,7 +18,18 @@ export type Tool = {
   icon: LucideIcon;
   category: "Text" | "Developer" | "AI" | "Media" | "Files" | "QR" | "Utilities";
   keywords: string[];
+  /** Premium tools deduct credits per use. Free tools never charge. */
+  premium: boolean;
 };
+
+/** Credits deducted each time a premium tool is used. */
+export const CREDIT_COST = 2;
+
+/** Tools that are always free and never deduct credits. */
+export const FREE_TOOL_SLUGS = ["json-formatter", "study-timer"] as const;
+
+export const isPremiumTool = (slug: string) =>
+  !FREE_TOOL_SLUGS.includes(slug as (typeof FREE_TOOL_SLUGS)[number]);
 
 export const tools: Tool[] = [
   {
@@ -28,6 +39,7 @@ export const tools: Tool[] = [
     icon: Braces,
     category: "Developer",
     keywords: ["json", "format", "validate", "developer", "api"],
+    premium: false,
   },
   {
     slug: "image-compressor",
@@ -36,6 +48,7 @@ export const tools: Tool[] = [
     icon: ImageIcon,
     category: "Media",
     keywords: ["image", "compress", "optimize", "photo", "size"],
+    premium: true,
   },
   {
     slug: "file-to-qr",
@@ -44,6 +57,7 @@ export const tools: Tool[] = [
     icon: QrCode,
     category: "QR",
     keywords: ["qr", "file", "share", "code", "upload"],
+    premium: true,
   },
   {
     slug: "file-to-link",
@@ -52,6 +66,7 @@ export const tools: Tool[] = [
     icon: Link2,
     category: "Files",
     keywords: ["share", "link", "upload", "url", "file"],
+    premium: true,
   },
   {
     slug: "link-to-file",
@@ -60,6 +75,7 @@ export const tools: Tool[] = [
     icon: Download,
     category: "Files",
     keywords: ["link", "url", "download", "file", "fetch"],
+    premium: true,
   },
   {
     slug: "code-generator",
@@ -68,6 +84,7 @@ export const tools: Tool[] = [
     icon: Code2,
     category: "AI",
     keywords: ["code", "generator", "ai", "developer", "html", "css", "javascript", "python", "java", "cpp"],
+    premium: true,
   },
   {
     slug: "unit-converter",
@@ -76,6 +93,7 @@ export const tools: Tool[] = [
     icon: Ruler,
     category: "Utilities",
     keywords: ["unit", "converter", "length", "weight", "temperature", "time", "speed", "data", "measurement"],
+    premium: true,
   },
   {
     slug: "study-timer",
@@ -84,5 +102,6 @@ export const tools: Tool[] = [
     icon: Timer,
     category: "Utilities",
     keywords: ["pomodoro", "study", "timer", "focus", "break", "productivity"],
+    premium: false,
   },
 ];

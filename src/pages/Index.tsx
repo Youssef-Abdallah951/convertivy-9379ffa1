@@ -1,12 +1,18 @@
 import { useMemo, useState } from "react";
-import { Search, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, Sparkles, Coins } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
 import { Input } from "@/components/ui/input";
 import { tools } from "@/lib/tools";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserCredits } from "@/hooks/useUserCredits";
 
 const Index = () => {
   const [query, setQuery] = useState("");
+  const { user } = useAuth();
+  const { credits } = useUserCredits();
+
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -50,6 +56,25 @@ const Index = () => {
                 />
               </div>
             </div>
+
+            {user && credits && (
+              <div className="mx-auto mt-5 flex max-w-xl items-center justify-center">
+                <Link
+                  to="/pricing"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent"
+                >
+                  <Coins className="h-4 w-4 text-primary" />
+                  {credits.isUnlimited ? (
+                    <span>Unlimited credits</span>
+                  ) : (
+                    <span>
+                      <span className="font-semibold text-foreground">{credits.credits}</span> credits
+                      remaining
+                    </span>
+                  )}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
