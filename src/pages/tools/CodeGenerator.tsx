@@ -15,6 +15,8 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { tools } from "@/lib/tools";
+import { useCreditGuard } from "@/hooks/useCreditGuard";
+import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 
 const tool = tools.find((t) => t.slug === "code-generator")!;
 
