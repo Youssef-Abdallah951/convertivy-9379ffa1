@@ -135,6 +135,8 @@ const UnitConverter = () => {
   const [fromUnit, setFromUnit] = useState<string>(CATEGORIES.length.units[0].value);
   const [toUnit, setToUnit] = useState<string>(CATEGORIES.length.units[1].value);
   const [input, setInput] = useState<string>("1");
+  const [revealed, setRevealed] = useState(false);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const handleCategoryChange = (next: CategoryKey) => {
     setCategory(next);
@@ -170,6 +172,26 @@ const UnitConverter = () => {
 
     return { result: formatResult(converted), error: "" };
   }, [input, fromUnit, toUnit, category]);
+
+  // Require a fresh conversion (and credit charge) whenever the inputs change.
+  useEffect(() => {
+    setRevealed(false);
+  }, [input, fromUnit, toUnit, category]);
+
+  const handleConvert = async () => {
+    if (input.trim() === "") {
+      toast.error("Please enter a value to convert.");
+      return;
+    }
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    const ok = await withCredits(async () => {
+      /* conversion is computed locally; charge applies on a successful convert */
+    });
+    if (ok) setRevealed(true);
+  };
 
   const units = CATEGORIES[category].units;
 
