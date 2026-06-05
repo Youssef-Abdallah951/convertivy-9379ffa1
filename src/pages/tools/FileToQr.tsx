@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { tools } from "@/lib/tools";
 import { supabase } from "@/integrations/supabase/client";
+import { useCreditGuard } from "@/hooks/useCreditGuard";
+import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 
 const tool = tools.find((t) => t.slug === "file-to-qr")!;
 const MAX_BYTES = 25 * 1024 * 1024;
