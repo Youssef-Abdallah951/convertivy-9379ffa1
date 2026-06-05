@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      credit_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          id: string
+          reason: string
+          tool_slug: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          created_at?: string
+          id?: string
+          reason?: string
+          tool_slug?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          tool_slug?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       payment_requests: {
         Row: {
           admin_notes: string | null
@@ -147,6 +177,10 @@ export type Database = {
       reject_payment_request: {
         Args: { _notes?: string; _request_id: string }
         Returns: undefined
+      }
+      spend_credits: {
+        Args: { _amount: number; _tool_slug?: string }
+        Returns: number
       }
     }
     Enums: {
