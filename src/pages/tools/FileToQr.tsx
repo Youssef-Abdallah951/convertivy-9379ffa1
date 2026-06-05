@@ -183,6 +183,7 @@ const FileToQr = () => {
           </div>
         )}
       </div>
+      <InsufficientCreditsDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />
     </Layout>
   );
 };
