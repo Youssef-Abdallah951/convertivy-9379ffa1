@@ -28,6 +28,7 @@ const LinkToFile = () => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<FetchedFile | null>(null);
+  const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const fetchFile = async () => {
     const trimmed = url.trim();
@@ -42,59 +43,63 @@ const LinkToFile = () => {
       return;
     }
 
-    setLoading(true);
-    if (file) URL.revokeObjectURL(file.blobUrl);
-    setFile(null);
+    await withCredits(async () => {
+      setLoading(true);
+      if (file) URL.revokeObjectURL(file.blobUrl);
+      setFile(null);
 
-    try {
-      const endpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fetch-url-file`;
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify({ url: trimmed }),
-      });
+      try {
+        const endpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fetch-url-file`;
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ url: trimmed }),
+        });
 
-      if (!res.ok) {
-        let message = `Failed to fetch (status ${res.status}).`;
-        try {
-          const data = await res.json();
-          if (data?.error) message = data.error;
-        } catch {
-          // ignore
+        if (!res.ok) {
+          let message = `Failed to fetch (status ${res.status}).`;
+          try {
+            const data = await res.json();
+            if (data?.error) message = data.error;
+          } catch {
+            // ignore
+          }
+          toast.error(message);
+          throw new Error(message);
         }
-        toast.error(message);
-        return;
-      }
 
-      const blob = await res.blob();
-      const headerName = res.headers.get("x-filename");
-      let name = "download";
-      if (headerName) {
-        try {
-          name = decodeURIComponent(headerName);
-        } catch {
-          name = headerName;
+        const blob = await res.blob();
+        const headerName = res.headers.get("x-filename");
+        let name = "download";
+        if (headerName) {
+          try {
+            name = decodeURIComponent(headerName);
+          } catch {
+            name = headerName;
+          }
         }
+        const blobUrl = URL.createObjectURL(blob);
+        setFile({
+          name,
+          size: blob.size,
+          type: blob.type || "application/octet-stream",
+          blobUrl,
+        });
+        toast.success("File ready to download");
+      } catch (e) {
+        console.error(e);
+        toast.error("Could not retrieve file. Please try a different link.");
+        throw e;
+      } finally {
+        setLoading(false);
       }
-      const blobUrl = URL.createObjectURL(blob);
-      setFile({
-        name,
-        size: blob.size,
-        type: blob.type || "application/octet-stream",
-        blobUrl,
-      });
-      toast.success("File ready to download");
-    } catch (e) {
-      console.error(e);
-      toast.error("Could not retrieve file. Please try a different link.");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
+
 
   const download = () => {
     if (!file) return;
