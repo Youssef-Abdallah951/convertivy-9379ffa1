@@ -8,6 +8,7 @@ import {
   Code2,
   Ruler,
   Timer,
+  Binary,
   type LucideIcon,
 } from "lucide-react";
 
@@ -103,5 +104,18 @@ export const tools: Tool[] = [
     category: "Utilities",
     keywords: ["pomodoro", "study", "timer", "focus", "break", "productivity"],
     premium: false,
+  },
+  {
+    slug: "universal-encoder",
+    title: "Universal Encoder / Decoder",
+    description:
+      "Encode and decode Base64, URL, HTML, Binary, Hex, ASCII, Unicode, Morse, ROT13, and JWT — all in one place.",
+    icon: Binary,
+    category: "Developer",
+    keywords: [
+      "encode", "decode", "base64", "url", "html", "binary", "hex", "ascii",
+      "unicode", "morse", "rot13", "jwt", "converter", "cipher",
+    ],
+    premium: true,
   },
 ];

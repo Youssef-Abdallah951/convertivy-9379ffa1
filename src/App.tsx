@@ -20,6 +20,7 @@ import LinkToFile from "./pages/tools/LinkToFile.tsx";
 import CodeGenerator from "./pages/tools/CodeGenerator.tsx";
 import UnitConverter from "./pages/tools/UnitConverter.tsx";
 import StudyTimer from "./pages/tools/StudyTimer.tsx";
+import UniversalEncoderDecoder from "./pages/tools/UniversalEncoderDecoder.tsx";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/tools/code-generator" element={<CodeGenerator />} />
               <Route path="/tools/unit-converter" element={<UnitConverter />} />
               <Route path="/tools/study-timer" element={<StudyTimer />} />
+              <Route path="/tools/universal-encoder" element={<UniversalEncoderDecoder />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
