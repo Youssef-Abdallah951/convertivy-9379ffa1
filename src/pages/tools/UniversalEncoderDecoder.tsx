@@ -39,25 +39,26 @@ const UniversalEncoderDecoder = () => {
       return;
     }
 
-    let result = "";
-    const ok = await withCredits(async () => {
-      // Throwing here prevents any credit deduction.
+    // Compute first so invalid input never reaches the credit charge.
+    let result: string;
+    try {
       result = mode === "encode" ? encode(format, input) : decode(format, input);
-      if (result === "" && input.trim() !== "") {
-        throw new Error("No output generated.");
-      }
-    });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Processing failed.");
+      return;
+    }
+    if (result === "") {
+      toast.error("No output generated.");
+      return;
+    }
 
+    // Charge credits only for a confirmed-successful operation.
+    const ok = await withCredits(async () => {
+      /* result already computed locally */
+    });
     if (ok) {
       setOutput(result);
       toast.success(`${mode === "encode" ? "Encoded" : "Decoded"} successfully`);
-    } else if (!ok) {
-      // withCredits swallows the thrown error; surface a hint when not a credit issue.
-      try {
-        mode === "encode" ? encode(format, input) : decode(format, input);
-      } catch (e) {
-        toast.error(e instanceof Error ? e.message : "Processing failed.");
-      }
     }
   };
 
