@@ -8,6 +8,7 @@ import {
   Code2,
   Ruler,
   Timer,
+  Binary,
   type LucideIcon,
 } from "lucide-react";
 
