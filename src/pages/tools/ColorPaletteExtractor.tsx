@@ -16,7 +16,6 @@ import { tools, CREDIT_COST } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 import { PaletteGrid } from "@/components/PaletteGrid";
-import { ColorCard } from "@/components/ColorCard";
 import { WebsiteAnalyzer } from "@/components/WebsiteAnalyzer";
 import { ImageUploader } from "@/components/ImageUploader";
 import {
