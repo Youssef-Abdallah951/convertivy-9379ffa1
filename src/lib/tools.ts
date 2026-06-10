@@ -9,6 +9,7 @@ import {
   Ruler,
   Timer,
   Binary,
+  Palette,
   type LucideIcon,
 } from "lucide-react";
 
