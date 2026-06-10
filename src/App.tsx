@@ -49,6 +49,7 @@ const App = () => (
               <Route path="/tools/unit-converter" element={<UnitConverter />} />
               <Route path="/tools/study-timer" element={<StudyTimer />} />
               <Route path="/tools/universal-encoder" element={<UniversalEncoderDecoder />} />
+              <Route path="/tools/color-palette-extractor" element={<ColorPaletteExtractor />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
