@@ -58,16 +58,18 @@ const ColorPaletteExtractor = () => {
     let colors: RGB[] = [];
     setLoading(true);
     const ok = await withCredits(async () => {
-      const { data, error } = await supabase.functions.invoke("extract-website-colors", {
-        body: { url: url.trim() },
-      });
-      if (error) throw new Error(error.message);
-      if (data?.error) throw new Error(data.error);
-      if (!data?.colors?.length) throw new Error("No colors detected.");
-      colors = data.colors as RGB[];
-    }).catch((e) => {
-      toast.error(e instanceof Error ? e.message : "Failed to analyze website.");
-      return false;
+      try {
+        const { data, error } = await supabase.functions.invoke("extract-website-colors", {
+          body: { url: url.trim() },
+        });
+        if (error) throw new Error(error.message);
+        if (data?.error) throw new Error(data.error);
+        if (!data?.colors?.length) throw new Error("No colors detected on that site.");
+        colors = data.colors as RGB[];
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to analyze website.");
+        throw e;
+      }
     });
     setLoading(false);
     if (ok && colors.length) {
