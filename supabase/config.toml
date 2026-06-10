@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.generate-code]
 verify_jwt = false
+
+[functions.extract-website-colors]
+verify_jwt = false

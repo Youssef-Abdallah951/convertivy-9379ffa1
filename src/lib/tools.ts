@@ -9,6 +9,7 @@ import {
   Ruler,
   Timer,
   Binary,
+  Palette,
   type LucideIcon,
 } from "lucide-react";
 
@@ -115,6 +116,19 @@ export const tools: Tool[] = [
     keywords: [
       "encode", "decode", "base64", "url", "html", "binary", "hex", "ascii",
       "unicode", "morse", "rot13", "jwt", "converter", "cipher",
+    ],
+    premium: true,
+  },
+  {
+    slug: "color-palette-extractor",
+    title: "Color Palette Extractor",
+    description:
+      "Extract beautiful, ready-to-use color palettes from any website URL or uploaded image.",
+    icon: Palette,
+    category: "Media",
+    keywords: [
+      "color", "palette", "extractor", "hex", "rgb", "design", "website",
+      "image", "swatch", "brand", "css variables", "dominant color",
     ],
     premium: true,
   },
