@@ -119,4 +119,17 @@ export const tools: Tool[] = [
     ],
     premium: true,
   },
+  {
+    slug: "color-palette-extractor",
+    title: "Color Palette Extractor",
+    description:
+      "Extract beautiful, ready-to-use color palettes from any website URL or uploaded image.",
+    icon: Palette,
+    category: "Media",
+    keywords: [
+      "color", "palette", "extractor", "hex", "rgb", "design", "website",
+      "image", "swatch", "brand", "css variables", "dominant color",
+    ],
+    premium: true,
+  },
 ];
