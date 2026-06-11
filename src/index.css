@@ -155,6 +155,9 @@
   .gradient-card {
     background-image: var(--gradient-card);
   }
+  .gradient-accent {
+    background-image: var(--gradient-accent);
+  }
   .text-gradient {
     background-image: var(--gradient-primary);
     -webkit-background-clip: text;
