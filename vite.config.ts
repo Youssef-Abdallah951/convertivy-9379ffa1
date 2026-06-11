@@ -4,8 +4,6 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  base: "/https://github.com/Youssef-Abdallah951/convertivy.git/",
-
   server: {
     host: "::",
     port: 8080,
