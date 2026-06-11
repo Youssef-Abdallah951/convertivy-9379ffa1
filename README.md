@@ -23,7 +23,7 @@ Convertify is an all-in-one web platform that provides useful digital tools for 
 ## 💳 Credits System
 
 - Every new user starts with **20 free credits**
-- Premium tools consume **3 credits per use**
+- Premium tools consume **2 credits per use**
 - Free tools:
   - Pomodoro Timer
   - JSON Formatter
@@ -71,8 +71,6 @@ The platform also supports:
 - User Authentication
 - Admin Approval System
 - Credits & Balance Management
-- InstaPay Payment Support
-
 ---
 
 
