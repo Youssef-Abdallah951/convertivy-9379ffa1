@@ -29,8 +29,11 @@
     --muted: 210 40% 96%;
     --muted-foreground: 215 20% 45%;
 
-    --accent: 189 94% 43%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 189 70% 92%;
+    --accent-foreground: 189 94% 28%;
+
+    /* Vivid brand cyan for gradients & highlights */
+    --brand-accent: 189 94% 43%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
