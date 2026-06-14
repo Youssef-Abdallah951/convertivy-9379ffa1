@@ -22,6 +22,7 @@ import UnitConverter from "./pages/tools/UnitConverter.tsx";
 import StudyTimer from "./pages/tools/StudyTimer.tsx";
 import UniversalEncoderDecoder from "./pages/tools/UniversalEncoderDecoder.tsx";
 import ColorPaletteExtractor from "./pages/tools/ColorPaletteExtractor.tsx";
+import CryptoImageAnalyzer from "./pages/tools/CryptoImageAnalyzer.tsx";
 
 const queryClient = new QueryClient();
 
