@@ -63,7 +63,7 @@ export async function extractMetadata(file: File): Promise<ImageMeta> {
 
   // EXIF parsing (best effort — mostly JPEG/TIFF).
   try {
-    const exif = await exifr.parse(file, { gps: true, tiff: true, ifd0: true, exif: true });
+    const exif = await exifr.parse(file, { gps: true, tiff: true, exif: true });
     if (exif) {
       const fields: Record<string, string> = {};
       const pick = (key: string, label: string, suffix = "") => {
