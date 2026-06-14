@@ -133,4 +133,17 @@ export const tools: Tool[] = [
     ],
     premium: true,
   },
+  {
+    slug: "crypto-image-analyzer",
+    title: "Crypto & Image Analyzer",
+    description:
+      "Enhance images, read EXIF metadata, detect encodings & ciphers, and analyze hashes — all in one tool.",
+    icon: ScanSearch,
+    category: "Developer",
+    keywords: [
+      "crypto", "image", "analyzer", "enhance", "upscale", "metadata", "exif",
+      "gps", "base64", "hash", "md5", "sha256", "caesar", "cipher", "decode", "detect",
+    ],
+    premium: true,
+  },
 ];
