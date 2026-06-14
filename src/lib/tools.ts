@@ -10,6 +10,7 @@ import {
   Timer,
   Binary,
   Palette,
+  ScanSearch,
   type LucideIcon,
 } from "lucide-react";
 
