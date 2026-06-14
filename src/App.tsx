@@ -22,6 +22,7 @@ import UnitConverter from "./pages/tools/UnitConverter.tsx";
 import StudyTimer from "./pages/tools/StudyTimer.tsx";
 import UniversalEncoderDecoder from "./pages/tools/UniversalEncoderDecoder.tsx";
 import ColorPaletteExtractor from "./pages/tools/ColorPaletteExtractor.tsx";
+import CryptoImageAnalyzer from "./pages/tools/CryptoImageAnalyzer.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="/tools/study-timer" element={<StudyTimer />} />
               <Route path="/tools/universal-encoder" element={<UniversalEncoderDecoder />} />
               <Route path="/tools/color-palette-extractor" element={<ColorPaletteExtractor />} />
+              <Route path="/tools/crypto-image-analyzer" element={<CryptoImageAnalyzer />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

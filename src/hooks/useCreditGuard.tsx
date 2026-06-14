@@ -28,9 +28,13 @@ export function useCreditGuard(toolSlug: string) {
   /**
    * Wraps a premium tool action. Returns true when the action ran and was charged.
    * The provided action MUST throw on failure so no credits are deducted.
+   * `amount` lets a tool charge a custom number of credits (defaults to CREDIT_COST).
    */
   const withCredits = useCallback(
-    async (action: () => Promise<void> | void): Promise<boolean> => {
+    async (
+      action: () => Promise<void> | void,
+      amount: number = CREDIT_COST,
+    ): Promise<boolean> => {
       if (!user) {
         toast.error("Please sign in to use this tool.");
         navigate("/auth");
@@ -40,7 +44,7 @@ export function useCreditGuard(toolSlug: string) {
         toast.error("Couldn't verify your credits. Please try again.");
         return false;
       }
-      if (!credits.isUnlimited && credits.credits < CREDIT_COST) {
+      if (!credits.isUnlimited && credits.credits < amount) {
         setUpgradeOpen(true);
         return false;
       }
@@ -55,7 +59,7 @@ export function useCreditGuard(toolSlug: string) {
 
       // Deduct credits server-side after a successful run.
       const { error } = await supabase.rpc("spend_credits", {
-        _amount: CREDIT_COST,
+        _amount: amount,
         _tool_slug: toolSlug,
       });
 
