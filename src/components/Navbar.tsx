@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Sparkles, Coins, LogOut, ShieldCheck, User as UserIcon } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { NotificationBell } from "./NotificationBell";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -62,6 +63,7 @@ export function Navbar() {
             </Link>
           )}
           <ThemeToggle />
+          {isAdmin && <NotificationBell />}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
