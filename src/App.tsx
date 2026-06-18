@@ -8,6 +8,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Payment from "./pages/Payment.tsx";
 import AdminPaymentRequests from "./pages/admin/PaymentRequests.tsx";
