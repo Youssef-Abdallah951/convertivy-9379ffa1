@@ -63,6 +63,7 @@ export function Navbar() {
             </Link>
           )}
           <ThemeToggle />
+          {isAdmin && <NotificationBell />}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
