@@ -10,6 +10,8 @@ type AuthContextValue = {
   signOut: () => Promise<void>;
 };
 
+const ADMIN_EMAIL = "yb109324@gmail.com";
+
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   session: null,
@@ -25,34 +27,56 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+    let mounted = true;
+
+    async function applySession(s: Session | null) {
+      if (!mounted) return;
+      setLoading(true);
       setSession(s);
       setUser(s?.user ?? null);
-      if (s?.user) {
-        setTimeout(() => checkAdmin(s.user.id), 0);
-      } else {
+
+      if (!s?.user) {
         setIsAdmin(false);
+        setLoading(false);
+        return;
       }
+
+      const admin = await checkAdmin(s.user);
+      if (!mounted) return;
+      setIsAdmin(admin);
+      setLoading(false);
+    }
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setTimeout(() => void applySession(s), 0);
     });
 
     supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s);
-      setUser(s?.user ?? null);
-      if (s?.user) checkAdmin(s.user.id);
-      setLoading(false);
+      void applySession(s);
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
-  async function checkAdmin(uid: string) {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", uid)
-      .eq("role", "admin")
-      .maybeSingle();
-    setIsAdmin(!!data);
+  async function checkAdmin(currentUser: User) {
+    const emailIsAdmin = currentUser.email?.toLowerCase() === ADMIN_EMAIL;
+
+    try {
+      const { data: ensured } = await (supabase as any).rpc("ensure_user_account");
+      if (ensured?.is_admin === true || emailIsAdmin) return true;
+
+      const { data } = await supabase.rpc("has_role", {
+        _user_id: currentUser.id,
+        _role: "admin",
+      });
+      return !!data;
+    } catch (error) {
+      console.error("Admin role check failed:", error);
+      return emailIsAdmin;
+    }
   }
 
   return (
