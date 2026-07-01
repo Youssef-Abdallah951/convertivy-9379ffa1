@@ -14,15 +14,15 @@ export function useUserCredits() {
   const [loading, setLoading] = useState(true);
   const channelId = useRef(`uc-${Math.random().toString(36).slice(2)}`);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<UserCredits | null> => {
     if (authLoading) {
       setLoading(true);
-      return;
+      return null;
     }
     if (!user) {
       setData(null);
       setLoading(false);
-      return;
+      return null;
     }
     setLoading(true);
 
@@ -30,13 +30,14 @@ export function useUserCredits() {
       const { data: ensured } = await (supabase as any).rpc("ensure_user_account");
       if (ensured && typeof ensured.credits === "number") {
         const unlimitedUntil = ensured.unlimited_until ?? null;
-        setData({
+        const next = {
           credits: ensured.credits,
           unlimited_until: unlimitedUntil,
           isUnlimited: !!unlimitedUntil && new Date(unlimitedUntil) > new Date(),
-        });
+        };
+        setData(next);
         setLoading(false);
-        return;
+        return next;
       }
 
       const { data: row, error } = await supabase
@@ -48,14 +49,17 @@ export function useUserCredits() {
       if (!row) {
         setData(null);
         setLoading(false);
-        return;
+        return null;
       }
       const isUnlimited =
         !!row.unlimited_until && new Date(row.unlimited_until) > new Date();
-      setData({ credits: row.credits, unlimited_until: row.unlimited_until, isUnlimited });
+      const next = { credits: row.credits, unlimited_until: row.unlimited_until, isUnlimited };
+      setData(next);
+      return next;
     } catch (error) {
       console.error("Credit balance load failed:", error);
       setData(null);
+      return null;
     } finally {
       setLoading(false);
     }
