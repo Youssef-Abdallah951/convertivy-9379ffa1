@@ -40,13 +40,7 @@ export function useCreditGuard(toolSlug: string) {
         navigate("/auth");
         return false;
       }
-      if (authLoading || creditsLoading) {
-        await refresh();
-      }
-      if (!credits) {
-        await refresh();
-      }
-      const currentCredits = credits;
+      const currentCredits = authLoading || creditsLoading || !credits ? await refresh() : credits;
       if (!currentCredits) {
         toast.error("Couldn't verify your credits. Please try again.");
         return false;
