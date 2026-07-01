@@ -18,8 +18,8 @@ import { CREDIT_COST } from "@/lib/tools";
  * Free tools should NOT use this hook — they run unconditionally.
  */
 export function useCreditGuard(toolSlug: string) {
-  const { user } = useAuth();
-  const { credits, refresh } = useUserCredits();
+  const { user, loading: authLoading } = useAuth();
+  const { credits, loading: creditsLoading, refresh } = useUserCredits();
   const navigate = useNavigate();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
 
@@ -40,11 +40,18 @@ export function useCreditGuard(toolSlug: string) {
         navigate("/auth");
         return false;
       }
+      if (authLoading || creditsLoading) {
+        await refresh();
+      }
       if (!credits) {
+        await refresh();
+      }
+      const currentCredits = credits;
+      if (!currentCredits) {
         toast.error("Couldn't verify your credits. Please try again.");
         return false;
       }
-      if (!credits.isUnlimited && credits.credits < amount) {
+      if (!currentCredits.isUnlimited && currentCredits.credits < amount) {
         setUpgradeOpen(true);
         return false;
       }
@@ -70,12 +77,12 @@ export function useCreditGuard(toolSlug: string) {
           console.error("spend_credits error:", error);
         }
       } else {
-        refresh();
+        await refresh();
       }
 
       return true;
     },
-    [user, credits, navigate, refresh, toolSlug],
+    [user, authLoading, creditsLoading, credits, navigate, refresh, toolSlug],
   );
 
   return { withCredits, upgradeOpen, setUpgradeOpen, hasEnough, credits };
