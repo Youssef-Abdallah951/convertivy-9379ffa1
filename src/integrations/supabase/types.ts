@@ -205,6 +205,7 @@ export type Database = {
         Args: { _notes?: string; _request_id: string }
         Returns: undefined
       }
+      ensure_user_account: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
