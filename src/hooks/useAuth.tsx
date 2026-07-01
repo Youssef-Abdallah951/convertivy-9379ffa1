@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      void applySession(s);
+      setTimeout(() => void applySession(s), 0);
     });
 
     supabase.auth.getSession().then(({ data: { session: s } }) => {
