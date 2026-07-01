@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { useUserCredits } from "./useUserCredits";
 import { CREDIT_COST } from "@/lib/tools";
+import type { UserCredits } from "./useUserCredits";
 
 /**
  * Guards a premium tool action behind a server-side credit check + deduction.
@@ -25,6 +26,21 @@ export function useCreditGuard(toolSlug: string) {
 
   const hasEnough = !!credits && (credits.isUnlimited || credits.credits >= CREDIT_COST);
 
+  const loadCreditsNow = useCallback(async (): Promise<UserCredits | null> => {
+    const refreshed = await refresh();
+    if (refreshed) return refreshed;
+
+    const { data, error } = await (supabase as any).rpc("ensure_user_account");
+    if (error || !data || typeof data.credits !== "number") return null;
+
+    const unlimitedUntil = data.unlimited_until ?? null;
+    return {
+      credits: data.credits,
+      unlimited_until: unlimitedUntil,
+      isUnlimited: !!unlimitedUntil && new Date(unlimitedUntil) > new Date(),
+    };
+  }, [refresh]);
+
   /**
    * Wraps a premium tool action. Returns true when the action ran and was charged.
    * The provided action MUST throw on failure so no credits are deducted.
@@ -40,7 +56,7 @@ export function useCreditGuard(toolSlug: string) {
         navigate("/auth");
         return false;
       }
-      const currentCredits = authLoading || creditsLoading || !credits ? await refresh() : credits;
+      const currentCredits = authLoading || creditsLoading || !credits ? await loadCreditsNow() : credits;
       if (!currentCredits) {
         toast.error("Couldn't verify your credits. Please try again.");
         return false;
@@ -76,7 +92,7 @@ export function useCreditGuard(toolSlug: string) {
 
       return true;
     },
-    [user, authLoading, creditsLoading, credits, navigate, refresh, toolSlug],
+    [user, authLoading, creditsLoading, credits, navigate, refresh, loadCreditsNow, toolSlug],
   );
 
   return { withCredits, upgradeOpen, setUpgradeOpen, hasEnough, credits };
