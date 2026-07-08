@@ -111,13 +111,16 @@ export const tools: Tool[] = [
     slug: "universal-encoder",
     title: "Universal Encoder / Decoder",
     description:
-      "Encode and decode Base64, URL, HTML, Binary, Hex, ASCII, Unicode, Morse, ROT13, and JWT — all in one place.",
+      "CyberChef-style multi-tool: 40+ encoders, hashes, ciphers, JWT & JSON tools, auto-detect, history and favorites.",
     icon: Binary,
     category: "Developer",
     keywords: [
-      "encode", "decode", "base64", "url", "html", "binary", "hex", "ascii",
-      "unicode", "morse", "rot13", "jwt", "converter", "cipher",
+      "encode", "decode", "base16", "base32", "base45", "base58", "base62", "base64", "base85",
+      "url", "html", "binary", "octal", "hex", "ascii", "utf8", "utf16", "unicode",
+      "md5", "sha1", "sha256", "sha512", "sha3", "hash", "rot13", "rot47", "caesar",
+      "vigenere", "atbash", "xor", "jwt", "json", "cipher", "cyberchef", "converter",
     ],
+
     premium: true,
   },
   {
