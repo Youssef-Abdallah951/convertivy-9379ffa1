@@ -21,19 +21,33 @@ type Props = {
   categoryFilter?: string | null;
 };
 
-export function OperationsPanel({ selectedId, onSelect, favorites, onToggleFavorite }: Props) {
+export function OperationsPanel({
+  selectedId,
+  onSelect,
+  favorites,
+  onToggleFavorite,
+  categoryFilter,
+}: Props) {
   const [query, setQuery] = useState("");
+
+  const categoryFilterFn = useMemo(() => {
+    if (!categoryFilter) return () => true;
+    const category = DISPLAY_CATEGORIES.find((c) => c.id === categoryFilter);
+    return category?.filter ?? (() => true);
+  }, [categoryFilter]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return OPERATIONS;
-    return OPERATIONS.filter(
-      (o) =>
+    return OPERATIONS.filter((o) => {
+      const matchesCategory = categoryFilterFn(o);
+      if (!q) return matchesCategory;
+      const matchesSearch =
         o.name.toLowerCase().includes(q) ||
         o.category.toLowerCase().includes(q) ||
-        o.keywords.some((k) => k.includes(q)),
-    );
-  }, [query]);
+        o.keywords.some((k) => k.includes(q));
+      return matchesSearch && matchesCategory;
+    });
+  }, [query, categoryFilterFn]);
 
   const grouped = useMemo(() => {
     const map = new Map<Category, Operation[]>();
