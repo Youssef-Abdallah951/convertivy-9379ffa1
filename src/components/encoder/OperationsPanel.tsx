@@ -4,13 +4,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { CATEGORY_ORDER, OPERATIONS, OPERATION_MAP, type Category, type Operation } from "@/lib/operations";
+import { DISPLAY_CATEGORIES } from "@/lib/encoderCategories";
+import {
+  CATEGORY_ORDER,
+  OPERATIONS,
+  OPERATION_MAP,
+  type Category,
+  type Operation,
+} from "@/lib/operations";
 
 type Props = {
   selectedId: string | null;
   onSelect: (op: Operation) => void;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
+  categoryFilter?: string | null;
 };
 
 export function OperationsPanel({ selectedId, onSelect, favorites, onToggleFavorite }: Props) {
