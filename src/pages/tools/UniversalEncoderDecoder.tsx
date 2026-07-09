@@ -217,6 +217,7 @@ const UniversalEncoderDecoder = () => {
       onSelect={selectOp}
       favorites={favorites}
       onToggleFavorite={toggleFavorite}
+      categoryFilter={activeCategory}
     />
   );
 
