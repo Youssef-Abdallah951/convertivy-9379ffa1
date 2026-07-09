@@ -30,6 +30,9 @@ import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialo
 import { OperationsPanel } from "@/components/encoder/OperationsPanel";
 import { AutoDetectBar } from "@/components/encoder/AutoDetectBar";
 import { HistoryPanel, type HistoryItem } from "@/components/encoder/HistoryPanel";
+import { HowItWorksSection } from "@/components/encoder/HowItWorksSection";
+import { OfficialCyberChefSection } from "@/components/encoder/OfficialCyberChefSection";
+import { CategoriesSection } from "@/components/encoder/CategoriesSection";
 import {
   HASH_META,
   OPERATION_MAP,
