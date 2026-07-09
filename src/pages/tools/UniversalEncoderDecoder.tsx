@@ -415,6 +415,34 @@ const UniversalEncoderDecoder = () => {
   return (
     <Layout>
       <div className="container max-w-7xl py-8 md:py-12">
+        <div className="mb-8 space-y-6">
+          <HowItWorksSection />
+          <OfficialCyberChefSection />
+          <CategoriesSection
+            activeCategory={activeCategory}
+            onSelectCategory={setActiveCategory}
+          />
+
+          {activeCategory && (
+            <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+              <p className="text-sm">
+                <span className="text-muted-foreground">Filtered by:</span>{" "}
+                <span className="font-semibold text-primary">
+                  {DISPLAY_CATEGORIES.find((c) => c.id === activeCategory)?.title}
+                </span>
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveCategory(null)}
+                className="h-8"
+              >
+                Clear filter
+              </Button>
+            </div>
+          )}
+        </div>
+
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 
         {isDesktop ? (
