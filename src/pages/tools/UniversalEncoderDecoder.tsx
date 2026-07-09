@@ -30,6 +30,10 @@ import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialo
 import { OperationsPanel } from "@/components/encoder/OperationsPanel";
 import { AutoDetectBar } from "@/components/encoder/AutoDetectBar";
 import { HistoryPanel, type HistoryItem } from "@/components/encoder/HistoryPanel";
+import { HowItWorksSection } from "@/components/encoder/HowItWorksSection";
+import { OfficialCyberChefSection } from "@/components/encoder/OfficialCyberChefSection";
+import { CategoriesSection } from "@/components/encoder/CategoriesSection";
+import { DISPLAY_CATEGORIES } from "@/lib/encoderCategories";
 import {
   HASH_META,
   OPERATION_MAP,
@@ -57,6 +61,7 @@ const UniversalEncoderDecoder = () => {
 
   const [favorites, setFavorites] = useLocalStorage<string[]>("ued.favorites", []);
   const [history, setHistory] = useLocalStorage<HistoryItem[]>("ued.history", []);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const op: Operation | undefined = OPERATION_MAP[selectedId];
 
@@ -213,6 +218,7 @@ const UniversalEncoderDecoder = () => {
       onSelect={selectOp}
       favorites={favorites}
       onToggleFavorite={toggleFavorite}
+      categoryFilter={activeCategory}
     />
   );
 
@@ -410,6 +416,34 @@ const UniversalEncoderDecoder = () => {
   return (
     <Layout>
       <div className="container max-w-7xl py-8 md:py-12">
+        <div className="mb-8 space-y-6">
+          <HowItWorksSection />
+          <OfficialCyberChefSection />
+          <CategoriesSection
+            activeCategory={activeCategory}
+            onSelectCategory={setActiveCategory}
+          />
+
+          {activeCategory && (
+            <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+              <p className="text-sm">
+                <span className="text-muted-foreground">Filtered by:</span>{" "}
+                <span className="font-semibold text-primary">
+                  {DISPLAY_CATEGORIES.find((c) => c.id === activeCategory)?.title}
+                </span>
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveCategory(null)}
+                className="h-8"
+              >
+                Clear filter
+              </Button>
+            </div>
+          )}
+        </div>
+
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 
         {isDesktop ? (
