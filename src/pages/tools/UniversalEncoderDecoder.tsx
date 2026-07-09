@@ -60,6 +60,7 @@ const UniversalEncoderDecoder = () => {
 
   const [favorites, setFavorites] = useLocalStorage<string[]>("ued.favorites", []);
   const [history, setHistory] = useLocalStorage<HistoryItem[]>("ued.history", []);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const op: Operation | undefined = OPERATION_MAP[selectedId];
 
