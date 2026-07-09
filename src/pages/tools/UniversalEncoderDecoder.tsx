@@ -33,6 +33,7 @@ import { HistoryPanel, type HistoryItem } from "@/components/encoder/HistoryPane
 import { HowItWorksSection } from "@/components/encoder/HowItWorksSection";
 import { OfficialCyberChefSection } from "@/components/encoder/OfficialCyberChefSection";
 import { CategoriesSection } from "@/components/encoder/CategoriesSection";
+import { DISPLAY_CATEGORIES } from "@/lib/encoderCategories";
 import {
   HASH_META,
   OPERATION_MAP,
