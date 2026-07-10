@@ -16,6 +16,7 @@ import AdminPaymentRequests from "./pages/admin/PaymentRequests.tsx";
 import JsonFormatter from "./pages/tools/JsonFormatter.tsx";
 import ImageCompressor from "./pages/tools/ImageCompressor.tsx";
 import FileToQr from "./pages/tools/FileToQr.tsx";
+import LinkToQr from "./pages/tools/LinkToQr.tsx";
 import FileToLink from "./pages/tools/FileToLink.tsx";
 import LinkToFile from "./pages/tools/LinkToFile.tsx";
 import CodeGenerator from "./pages/tools/CodeGenerator.tsx";
