@@ -10,6 +10,8 @@ import {
   Timer,
   Binary,
   Palette,
+  ScanLine,
+  
   
   type LucideIcon,
 } from "lucide-react";
@@ -60,6 +62,15 @@ export const tools: Tool[] = [
     icon: QrCode,
     category: "QR",
     keywords: ["qr", "file", "share", "code", "upload"],
+    premium: true,
+  },
+  {
+    slug: "link-to-qr",
+    title: "Link to QR Code",
+    description: "Generate a QR Code from any valid URL or website link instantly.",
+    icon: ScanLine,
+    category: "QR",
+    keywords: ["qr", "link", "url", "website", "code", "generate", "scan"],
     premium: true,
   },
   {
