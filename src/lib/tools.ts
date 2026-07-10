@@ -65,6 +65,15 @@ export const tools: Tool[] = [
     premium: true,
   },
   {
+    slug: "link-to-qr",
+    title: "Link to QR Code",
+    description: "Generate a QR Code from any valid URL or website link instantly.",
+    icon: ScanLine,
+    category: "QR",
+    keywords: ["qr", "link", "url", "website", "code", "generate", "scan"],
+    premium: true,
+  },
+  {
     slug: "file-to-link",
     title: "File to Link",
     description: "Upload a file and instantly get a shareable download link.",
