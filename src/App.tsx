@@ -47,6 +47,7 @@ const App = () => (
               <Route path="/tools/json-formatter" element={<JsonFormatter />} />
               <Route path="/tools/image-compressor" element={<ImageCompressor />} />
               <Route path="/tools/file-to-qr" element={<FileToQr />} />
+              <Route path="/tools/link-to-qr" element={<LinkToQr />} />
               <Route path="/tools/file-to-link" element={<FileToLink />} />
               <Route path="/tools/link-to-file" element={<LinkToFile />} />
               <Route path="/tools/code-generator" element={<CodeGenerator />} />
