@@ -10,6 +10,8 @@ import {
   Timer,
   Binary,
   Palette,
+  ScanLine,
+  
   
   type LucideIcon,
 } from "lucide-react";
