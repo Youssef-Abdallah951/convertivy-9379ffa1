@@ -24,6 +24,8 @@ import UnitConverter from "./pages/tools/UnitConverter.tsx";
 import StudyTimer from "./pages/tools/StudyTimer.tsx";
 import UniversalEncoderDecoder from "./pages/tools/UniversalEncoderDecoder.tsx";
 import ColorPaletteExtractor from "./pages/tools/ColorPaletteExtractor.tsx";
+import CssGeneratorSuite from "./pages/tools/CssGeneratorSuite.tsx";
+
 
 
 const queryClient = new QueryClient();
@@ -55,6 +57,8 @@ const App = () => (
               <Route path="/tools/study-timer" element={<StudyTimer />} />
               <Route path="/tools/universal-encoder" element={<UniversalEncoderDecoder />} />
               <Route path="/tools/color-palette-extractor" element={<ColorPaletteExtractor />} />
+              <Route path="/tools/css-generator-suite" element={<CssGeneratorSuite />} />
+
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -11,10 +11,12 @@ import {
   Binary,
   Palette,
   ScanLine,
+  Paintbrush,
   
   
   type LucideIcon,
 } from "lucide-react";
+
 
 export type Tool = {
   slug: string;
@@ -147,4 +149,19 @@ export const tools: Tool[] = [
     ],
     premium: true,
   },
+  {
+    slug: "css-generator-suite",
+    title: "CSS Generator Suite",
+    description:
+      "Six visual CSS generators in one: gradients, box shadows, glassmorphism, border radius, buttons and clip-paths.",
+    icon: Paintbrush,
+    category: "Developer",
+    keywords: [
+      "css", "generator", "gradient", "linear gradient", "radial gradient",
+      "box shadow", "glassmorphism", "border radius", "button", "clip path",
+      "polygon", "design", "frontend", "styles",
+    ],
+    premium: true,
+  },
 ];
+
