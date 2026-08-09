@@ -955,19 +955,19 @@ const CssGeneratorSuite = () => {
             </div>
 
             {/* Preview + code */}
-            <div className="space-y-6">
-              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <div className="min-w-0 space-y-6">
+              <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-3 py-3 sm:px-4">
                   <h2 className="text-sm font-semibold">Live Preview</h2>
                   <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-accent-foreground">
                     Free to tweak
                   </span>
                 </div>
-                <div className="h-56 w-full bg-muted/30 sm:h-72">{preview()}</div>
+                <div className="h-52 w-full overflow-hidden bg-muted/30 sm:h-72">{preview()}</div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
-                <div className="mb-3 flex items-center justify-between">
+              <div className="min-w-0 rounded-2xl border border-border bg-card p-3 shadow-sm sm:p-5">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                   <h2 className="text-sm font-semibold">Generated code</h2>
                   <span className="text-xs text-muted-foreground">
                     {CREDIT_COST} credits per export
@@ -977,16 +977,16 @@ const CssGeneratorSuite = () => {
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <Button
                     onClick={copyCss}
-                    className="gradient-primary text-primary-foreground shadow-glow"
+                    className="h-11 w-full gradient-primary text-primary-foreground shadow-glow sm:h-10"
                   >
                     <Copy className="mr-2 h-4 w-4" />
                     Copy CSS
                   </Button>
-                  <Button variant="outline" onClick={downloadCss}>
+                  <Button variant="outline" onClick={downloadCss} className="h-11 w-full sm:h-10">
                     <Download className="mr-2 h-4 w-4" />
                     Download
                   </Button>
-                  <Button variant="ghost" onClick={reset}>
+                  <Button variant="ghost" onClick={reset} className="h-11 w-full sm:h-10">
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Reset
                   </Button>
