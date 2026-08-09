@@ -88,15 +88,19 @@ function ColorField({
 }) {
   return (
     <ControlRow label={label} value={value.toUpperCase()}>
-      <div className="flex items-center gap-2">
+      <div className="flex w-full min-w-0 items-center gap-2">
         <input
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-label={label}
-          className="h-10 w-14 cursor-pointer rounded-lg border border-border bg-card p-1"
+          className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-border bg-card p-1 sm:w-14"
         />
-        <Input value={value} onChange={(e) => onChange(e.target.value)} className="font-mono" />
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-w-0 flex-1 font-mono"
+        />
       </div>
     </ControlRow>
   );
@@ -106,8 +110,8 @@ function ColorField({
 function CodeBlock({ code }: { code: string }) {
   const lines = code.split("\n");
   return (
-    <pre className="max-h-80 overflow-auto rounded-xl border border-border bg-muted/40 p-4 text-xs leading-relaxed sm:text-sm">
-      <code className="font-mono">
+    <pre className="max-h-80 w-full max-w-full overflow-x-auto overflow-y-auto rounded-xl border border-border bg-muted/40 p-3 text-xs leading-relaxed sm:p-4 sm:text-sm">
+      <code className="block min-w-0 whitespace-pre font-mono">
         {lines.map((line, i) => {
           const match = line.match(/^(\s*)([-a-zA-Z][\w-]*)(\s*:\s*)(.*)$/);
           if (!match) {
@@ -361,9 +365,9 @@ const CssGeneratorSuite = () => {
       return <div className="h-full w-full" style={{ background: gradientValue }} />;
     if (tab === "shadow")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
           <div
-            className="h-28 w-40 rounded-2xl bg-card sm:h-32 sm:w-56"
+            className="h-24 w-32 max-w-full rounded-2xl bg-card sm:h-32 sm:w-56"
             style={{ boxShadow: shadowValue }}
           />
         </div>
@@ -371,11 +375,11 @@ const CssGeneratorSuite = () => {
     if (tab === "glass")
       return (
         <div
-          className="flex h-full w-full items-center justify-center p-8"
+          className="flex h-full w-full items-center justify-center p-4 sm:p-8"
           style={{ background: "linear-gradient(135deg, #2563eb, #7c3aed 50%, #06b6d4)" }}
         >
           <div
-            className="flex h-28 w-full max-w-xs items-center justify-center text-sm font-semibold text-white sm:h-36"
+            className="flex h-28 w-full max-w-[16rem] items-center justify-center text-sm font-semibold text-white sm:h-36 sm:max-w-xs"
             style={{
               background: rgba(glass.color, glass.opacity),
               backdropFilter: `blur(${glass.blur}px)`,
@@ -391,19 +395,19 @@ const CssGeneratorSuite = () => {
       );
     if (tab === "radius")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
           <div
-            className="h-28 w-40 gradient-primary sm:h-36 sm:w-56"
+            className="h-28 w-40 max-w-full gradient-primary sm:h-36 sm:w-56"
             style={{ borderRadius: radiusValue }}
           />
         </div>
       );
     if (tab === "button")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-8">
           <button
             type="button"
-            className="css-suite-btn font-semibold"
+            className="css-suite-btn max-w-full break-words font-semibold"
             style={{
               background: button.bg,
               color: button.text,
@@ -428,9 +432,9 @@ const CssGeneratorSuite = () => {
         </div>
       );
     return (
-      <div className="flex h-full w-full items-center justify-center p-8">
+      <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
         <div
-          className="h-40 w-40 gradient-primary sm:h-52 sm:w-52"
+          className="h-36 w-36 max-w-full gradient-primary sm:h-52 sm:w-52"
           style={{ clipPath: clipValue }}
         />
       </div>
@@ -448,26 +452,29 @@ const CssGeneratorSuite = () => {
 
   return (
     <Layout>
-      <div className="container max-w-6xl py-8 md:py-12">
+      <div className="container w-full max-w-6xl overflow-x-hidden py-8 md:py-12">
         <ToolPageHeader title={tool.title} description={tool.description} icon={Paintbrush} />
 
-        <Tabs value={tab} onValueChange={setTab} className="animate-fade-in">
-          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 rounded-2xl p-1.5 sm:grid-cols-3 lg:grid-cols-6">
-            {tabItems.map((t) => (
-              <TabsTrigger
-                key={t.id}
-                value={t.id}
-                className="flex items-center gap-1.5 rounded-xl py-2 text-xs sm:text-sm"
-              >
-                <t.icon className="h-4 w-4 shrink-0" />
-                <span className="truncate">{t.label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <Tabs value={tab} onValueChange={setTab} className="w-full min-w-0 animate-fade-in">
+          <div className="-mx-1 w-full max-w-full overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+            <TabsList className="inline-flex h-auto w-max min-w-full gap-1 rounded-2xl p-1.5 sm:grid sm:w-full sm:grid-cols-3 lg:grid-cols-6">
+              {tabItems.map((t) => (
+                <TabsTrigger
+                  key={t.id}
+                  value={t.id}
+                  className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2.5 text-xs sm:min-w-0 sm:px-2 sm:text-sm"
+                >
+                  <t.icon className="h-4 w-4 shrink-0" />
+                  <span className="sm:truncate">{t.label}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <div className="mt-6 grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             {/* Controls */}
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-base sm:p-6">
+            <div className="min-w-0 rounded-2xl border border-border bg-card p-4 shadow-sm transition-base sm:p-6">
+
               <TabsContent value="gradient" className="mt-0 space-y-5">
                 <ControlRow label="Type">
                   <Select
@@ -948,19 +955,19 @@ const CssGeneratorSuite = () => {
             </div>
 
             {/* Preview + code */}
-            <div className="space-y-6">
-              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <div className="min-w-0 space-y-6">
+              <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-3 py-3 sm:px-4">
                   <h2 className="text-sm font-semibold">Live Preview</h2>
                   <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-accent-foreground">
                     Free to tweak
                   </span>
                 </div>
-                <div className="h-56 w-full bg-muted/30 sm:h-72">{preview()}</div>
+                <div className="h-52 w-full overflow-hidden bg-muted/30 sm:h-72">{preview()}</div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
-                <div className="mb-3 flex items-center justify-between">
+              <div className="min-w-0 rounded-2xl border border-border bg-card p-3 shadow-sm sm:p-5">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                   <h2 className="text-sm font-semibold">Generated code</h2>
                   <span className="text-xs text-muted-foreground">
                     {CREDIT_COST} credits per export
@@ -970,16 +977,16 @@ const CssGeneratorSuite = () => {
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <Button
                     onClick={copyCss}
-                    className="gradient-primary text-primary-foreground shadow-glow"
+                    className="h-11 w-full gradient-primary text-primary-foreground shadow-glow sm:h-10"
                   >
                     <Copy className="mr-2 h-4 w-4" />
                     Copy CSS
                   </Button>
-                  <Button variant="outline" onClick={downloadCss}>
+                  <Button variant="outline" onClick={downloadCss} className="h-11 w-full sm:h-10">
                     <Download className="mr-2 h-4 w-4" />
                     Download
                   </Button>
-                  <Button variant="ghost" onClick={reset}>
+                  <Button variant="ghost" onClick={reset} className="h-11 w-full sm:h-10">
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Reset
                   </Button>
