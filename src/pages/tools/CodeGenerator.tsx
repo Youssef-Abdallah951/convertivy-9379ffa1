@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Code2, Copy, Download, Loader2, Sparkles, Wand2, Bug, Lightbulb } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Code2, Copy, Check, Download, Loader2, Sparkles, Wand2, Bug, Lightbulb } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ToolPageHeader } from "@/components/ToolPageHeader";
 import { Button } from "@/components/ui/button";
