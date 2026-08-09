@@ -452,26 +452,29 @@ const CssGeneratorSuite = () => {
 
   return (
     <Layout>
-      <div className="container max-w-6xl py-8 md:py-12">
+      <div className="container w-full max-w-6xl overflow-x-hidden py-8 md:py-12">
         <ToolPageHeader title={tool.title} description={tool.description} icon={Paintbrush} />
 
-        <Tabs value={tab} onValueChange={setTab} className="animate-fade-in">
-          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 rounded-2xl p-1.5 sm:grid-cols-3 lg:grid-cols-6">
-            {tabItems.map((t) => (
-              <TabsTrigger
-                key={t.id}
-                value={t.id}
-                className="flex items-center gap-1.5 rounded-xl py-2 text-xs sm:text-sm"
-              >
-                <t.icon className="h-4 w-4 shrink-0" />
-                <span className="truncate">{t.label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <Tabs value={tab} onValueChange={setTab} className="w-full min-w-0 animate-fade-in">
+          <div className="-mx-1 w-full max-w-full overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+            <TabsList className="inline-flex h-auto w-max min-w-full gap-1 rounded-2xl p-1.5 sm:grid sm:w-full sm:grid-cols-3 lg:grid-cols-6">
+              {tabItems.map((t) => (
+                <TabsTrigger
+                  key={t.id}
+                  value={t.id}
+                  className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2.5 text-xs sm:min-w-0 sm:px-2 sm:text-sm"
+                >
+                  <t.icon className="h-4 w-4 shrink-0" />
+                  <span className="sm:truncate">{t.label}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <div className="mt-6 grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             {/* Controls */}
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-base sm:p-6">
+            <div className="min-w-0 rounded-2xl border border-border bg-card p-4 shadow-sm transition-base sm:p-6">
+
               <TabsContent value="gradient" className="mt-0 space-y-5">
                 <ControlRow label="Type">
                   <Select
