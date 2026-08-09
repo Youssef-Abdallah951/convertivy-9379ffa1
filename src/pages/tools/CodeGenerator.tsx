@@ -82,8 +82,20 @@ const CodeGenerator = () => {
 
   const copy = async () => {
     if (!output) return;
-    await navigator.clipboard.writeText(output);
-    toast.success("Copied");
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(output);
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+      setCopied(true);
+      toast.success("Code copied successfully");
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error("clipboard error:", e);
+      toast.error("Couldn't copy to clipboard. Please allow clipboard permission and try again.");
+    }
   };
 
   const download = () => {
