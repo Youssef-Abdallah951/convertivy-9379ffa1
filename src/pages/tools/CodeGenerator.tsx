@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Code2, Copy, Download, Loader2, Sparkles, Wand2, Bug, Lightbulb } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Code2, Copy, Check, Download, Loader2, Sparkles, Wand2, Bug, Lightbulb } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ToolPageHeader } from "@/components/ToolPageHeader";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,11 @@ const CodeGenerator = () => {
   const [output, setOutput] = useState("");
   const [outputAction, setOutputAction] = useState<Action>("generate");
   const [loading, setLoading] = useState<Action | null>(null);
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (copyTimer.current) clearTimeout(copyTimer.current);
+  }, []);
   const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const run = async (action: Action) => {
@@ -82,8 +87,20 @@ const CodeGenerator = () => {
 
   const copy = async () => {
     if (!output) return;
-    await navigator.clipboard.writeText(output);
-    toast.success("Copied");
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(output);
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+      setCopied(true);
+      toast.success("Code copied successfully");
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error("clipboard error:", e);
+      toast.error("Couldn't copy to clipboard. Please allow clipboard permission and try again.");
+    }
   };
 
   const download = () => {
@@ -215,19 +232,41 @@ const CodeGenerator = () => {
                 </span>
               </div>
               <div className="flex gap-2">
-                <Button size="sm" variant="ghost" onClick={copy}>
-                  <Copy className="mr-1.5 h-3.5 w-3.5" />
-                  Copy
-                </Button>
                 <Button size="sm" variant="ghost" onClick={download}>
                   <Download className="mr-1.5 h-3.5 w-3.5" />
                   Download
                 </Button>
               </div>
             </div>
-            <pre className="max-h-[60vh] overflow-auto bg-background p-4 text-sm leading-relaxed">
+            <div className="border-b border-border bg-muted/20 px-4 py-3">
+              <Button
+                onClick={copy}
+                size="sm"
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
+                {copied ? (
+                  <Check className="mr-1.5 h-3.5 w-3.5" />
+                ) : (
+                  <Copy className="mr-1.5 h-3.5 w-3.5" />
+                )}
+                {copied ? "Copied!" : "Copy Code"}
+              </Button>
+            </div>
+            <pre
+              className="max-h-[60vh] select-none overflow-auto bg-background p-4 text-sm leading-relaxed"
+              style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" }}
+              onContextMenu={(e) => e.preventDefault()}
+              onCopy={(e) => {
+                e.preventDefault();
+                toast.info('Use the "Copy Code" button to copy this code.');
+              }}
+              onCut={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
+            >
               <code className="font-mono text-foreground">{output}</code>
             </pre>
+
           </div>
         )}
       </div>
