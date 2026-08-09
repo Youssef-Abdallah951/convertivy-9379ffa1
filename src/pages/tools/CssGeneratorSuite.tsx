@@ -365,9 +365,9 @@ const CssGeneratorSuite = () => {
       return <div className="h-full w-full" style={{ background: gradientValue }} />;
     if (tab === "shadow")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
           <div
-            className="h-28 w-40 rounded-2xl bg-card sm:h-32 sm:w-56"
+            className="h-24 w-32 max-w-full rounded-2xl bg-card sm:h-32 sm:w-56"
             style={{ boxShadow: shadowValue }}
           />
         </div>
@@ -375,11 +375,11 @@ const CssGeneratorSuite = () => {
     if (tab === "glass")
       return (
         <div
-          className="flex h-full w-full items-center justify-center p-8"
+          className="flex h-full w-full items-center justify-center p-4 sm:p-8"
           style={{ background: "linear-gradient(135deg, #2563eb, #7c3aed 50%, #06b6d4)" }}
         >
           <div
-            className="flex h-28 w-full max-w-xs items-center justify-center text-sm font-semibold text-white sm:h-36"
+            className="flex h-28 w-full max-w-[16rem] items-center justify-center text-sm font-semibold text-white sm:h-36 sm:max-w-xs"
             style={{
               background: rgba(glass.color, glass.opacity),
               backdropFilter: `blur(${glass.blur}px)`,
@@ -395,19 +395,19 @@ const CssGeneratorSuite = () => {
       );
     if (tab === "radius")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
           <div
-            className="h-28 w-40 gradient-primary sm:h-36 sm:w-56"
+            className="h-28 w-40 max-w-full gradient-primary sm:h-36 sm:w-56"
             style={{ borderRadius: radiusValue }}
           />
         </div>
       );
     if (tab === "button")
       return (
-        <div className="flex h-full w-full items-center justify-center p-8">
+        <div className="flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-8">
           <button
             type="button"
-            className="css-suite-btn font-semibold"
+            className="css-suite-btn max-w-full break-words font-semibold"
             style={{
               background: button.bg,
               color: button.text,
@@ -432,9 +432,9 @@ const CssGeneratorSuite = () => {
         </div>
       );
     return (
-      <div className="flex h-full w-full items-center justify-center p-8">
+      <div className="flex h-full w-full items-center justify-center p-4 sm:p-8">
         <div
-          className="h-40 w-40 gradient-primary sm:h-52 sm:w-52"
+          className="h-36 w-36 max-w-full gradient-primary sm:h-52 sm:w-52"
           style={{ clipPath: clipValue }}
         />
       </div>
