@@ -39,6 +39,11 @@ const CodeGenerator = () => {
   const [output, setOutput] = useState("");
   const [outputAction, setOutputAction] = useState<Action>("generate");
   const [loading, setLoading] = useState<Action | null>(null);
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (copyTimer.current) clearTimeout(copyTimer.current);
+  }, []);
   const { withCredits, upgradeOpen, setUpgradeOpen } = useCreditGuard(tool.slug);
 
   const run = async (action: Action) => {
