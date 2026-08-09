@@ -88,15 +88,19 @@ function ColorField({
 }) {
   return (
     <ControlRow label={label} value={value.toUpperCase()}>
-      <div className="flex items-center gap-2">
+      <div className="flex w-full min-w-0 items-center gap-2">
         <input
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-label={label}
-          className="h-10 w-14 cursor-pointer rounded-lg border border-border bg-card p-1"
+          className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-border bg-card p-1 sm:w-14"
         />
-        <Input value={value} onChange={(e) => onChange(e.target.value)} className="font-mono" />
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-w-0 flex-1 font-mono"
+        />
       </div>
     </ControlRow>
   );
@@ -106,8 +110,8 @@ function ColorField({
 function CodeBlock({ code }: { code: string }) {
   const lines = code.split("\n");
   return (
-    <pre className="max-h-80 overflow-auto rounded-xl border border-border bg-muted/40 p-4 text-xs leading-relaxed sm:text-sm">
-      <code className="font-mono">
+    <pre className="max-h-80 w-full max-w-full overflow-x-auto overflow-y-auto rounded-xl border border-border bg-muted/40 p-3 text-xs leading-relaxed sm:p-4 sm:text-sm">
+      <code className="block min-w-0 whitespace-pre font-mono">
         {lines.map((line, i) => {
           const match = line.match(/^(\s*)([-a-zA-Z][\w-]*)(\s*:\s*)(.*)$/);
           if (!match) {
