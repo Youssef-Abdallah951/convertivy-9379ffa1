@@ -61,8 +61,8 @@ export function Navbar() {
                   isActive && "text-foreground",
                 )
               }
-              data-active={undefined}
             >
+
               {l.label}
             </NavLink>
           ))}
