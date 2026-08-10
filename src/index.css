@@ -164,6 +164,15 @@
   .gradient-accent {
     background-image: var(--gradient-accent);
   }
+  .gradient-aurora {
+    background-image: linear-gradient(
+      120deg,
+      hsl(var(--secondary) / 0.16),
+      hsl(var(--primary) / 0.14) 30%,
+      hsl(var(--brand-accent) / 0.1) 60%,
+      hsl(var(--secondary) / 0.16) 100%
+    );
+  }
   .text-gradient {
     background-image: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -178,5 +187,41 @@
   }
   .transition-smooth {
     transition: var(--transition-smooth);
+  }
+  /* Soft floating blobs used by the animated background */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    will-change: transform;
+  }
+  /* Animated underline for nav links */
+  .nav-underline::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 9999px;
+    background-image: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-underline:hover::after,
+  .nav-underline[data-active="true"]::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
