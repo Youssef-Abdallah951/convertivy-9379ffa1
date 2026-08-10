@@ -61,8 +61,9 @@ export function Navbar() {
                   isActive && "text-foreground",
                 )
               }
+              data-active={undefined}
             >
-              {({ isActive }) => <span data-active={isActive}>{l.label}</span>}
+              {l.label}
             </NavLink>
           ))}
         </nav>
