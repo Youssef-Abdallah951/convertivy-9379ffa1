@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Sparkles, Coins, LogOut, ShieldCheck, User as UserIcon } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -19,12 +20,27 @@ export function Navbar() {
   const navigate = useNavigate();
   const { user, isAdmin, signOut } = useAuth();
   const { credits } = useUserCredits();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
+    <header
+      className={cn(
+        "sticky top-0 z-40 w-full border-b transition-smooth",
+        scrolled
+          ? "border-border/60 bg-background/70 shadow-md backdrop-blur-xl"
+          : "border-transparent bg-background/40 backdrop-blur-sm",
+      )}
+    >
       <div className="container flex h-16 items-center justify-between gap-2">
-        <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary shadow-glow">
+        <Link to="/" className="group flex items-center gap-2 font-bold text-lg">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary shadow-glow transition-smooth group-hover:scale-110 group-hover:rotate-6">
             <Sparkles className="h-4 w-4 text-primary-foreground" />
           </span>
           <span className="text-gradient hidden sm:inline">Convertify</span>
@@ -41,15 +57,16 @@ export function Navbar() {
               end={l.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted",
-                  isActive && "bg-accent text-accent-foreground"
+                  "nav-underline relative rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+                  isActive && "text-foreground",
                 )
               }
             >
-              {l.label}
+              {({ isActive }) => <span data-active={isActive}>{l.label}</span>}
             </NavLink>
           ))}
         </nav>
+
 
         <div className="flex items-center gap-2">
           {user && credits && (
