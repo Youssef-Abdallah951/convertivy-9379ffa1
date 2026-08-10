@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { tools } from "@/lib/tools";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserCredits } from "@/hooks/useUserCredits";
+import { motion, riseItem, staggerContainer, Reveal, RevealGroup } from "@/components/motion/Reveal";
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -31,37 +32,48 @@ const Index = () => {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/60 gradient-hero">
         <div className="container py-16 md:py-24">
-          <div className="mx-auto max-w-3xl text-center animate-fade-in">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
+          <motion.div
+            className="mx-auto max-w-3xl text-center"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.span
+              variants={riseItem}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur"
+            >
+              <Sparkles className="h-3.5 w-3.5 animate-float text-primary" />
               Free, fast & privacy-friendly
-            </span>
-            <h1 className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
+            </motion.span>
+            <motion.h1 variants={riseItem} className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
               All your favorite tools, <br className="hidden md:block" />
               <span className="text-gradient">in one place.</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg">
+            </motion.h1>
+            <motion.p
+              variants={riseItem}
+              className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg"
+            >
               A growing collection of beautifully simple web tools for students and developers — no signup required.
-            </p>
+            </motion.p>
 
-            <div className="mx-auto mt-8 max-w-xl">
+            <motion.div variants={riseItem} className="mx-auto mt-8 max-w-xl">
               <div className="relative">
                 <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search tools — try 'json' or 'word'..."
-                  className="h-14 rounded-2xl border-border bg-card pl-12 pr-4 text-base shadow-md focus-visible:ring-primary/40"
+                  className="h-14 rounded-2xl border-border bg-card/90 pl-12 pr-4 text-base shadow-md backdrop-blur transition-smooth focus-visible:ring-primary/40 focus-visible:shadow-glow"
                   aria-label="Search tools"
                 />
               </div>
-            </div>
+            </motion.div>
 
             {user && credits && (
-              <div className="mx-auto mt-5 flex max-w-xl items-center justify-center">
+              <motion.div variants={riseItem} className="mx-auto mt-5 flex max-w-xl items-center justify-center">
                 <Link
                   to="/pricing"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-smooth hover:scale-105 hover:shadow-glow"
                 >
                   <Coins className="h-4 w-4 text-primary" />
                   {credits.isUnlimited ? (
@@ -73,15 +85,15 @@ const Index = () => {
                     </span>
                   )}
                 </Link>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Tools grid */}
       <section className="container py-12 md:py-16">
-        <div className="mb-6 flex items-end justify-between">
+        <Reveal className="mb-6 flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
               {query ? "Results" : "Browse all tools"}
@@ -90,7 +102,7 @@ const Index = () => {
               {filtered.length} {filtered.length === 1 ? "tool" : "tools"} available
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {filtered.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center">
@@ -99,11 +111,11 @@ const Index = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <RevealGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map((tool) => (
               <ToolCard key={tool.slug} tool={tool} />
             ))}
-          </div>
+          </RevealGroup>
         )}
       </section>
     </Layout>
