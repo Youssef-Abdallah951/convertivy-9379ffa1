@@ -10,6 +10,7 @@ import { tools } from "@/lib/tools";
 import { supabase } from "@/integrations/supabase/client";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const tool = tools.find((t) => t.slug === "file-to-qr")!;
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -164,7 +165,7 @@ const FileToQr = () => {
             <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 shadow-sm">
               <div className="flex h-64 w-64 items-center justify-center rounded-xl bg-muted/40">
                 {loading ? (
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <Skeleton className="h-full w-full rounded-xl" />
                 ) : qr ? (
                   <img src={qr} alt="QR code" className="h-full w-full rounded-xl" />
                 ) : (

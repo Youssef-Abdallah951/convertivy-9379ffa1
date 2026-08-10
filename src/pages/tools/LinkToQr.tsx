@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { tools, CREDIT_COST } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const tool = tools.find((t) => t.slug === "link-to-qr")!;
 
@@ -287,7 +288,7 @@ const LinkToQr = () => {
               style={pngUrl ? { backgroundColor: bgColor } : undefined}
             >
               {loading ? (
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <Skeleton className="h-full w-full rounded-xl" />
               ) : pngUrl ? (
                 <img src={pngUrl} alt="Generated QR code" className="h-full w-full rounded-xl" />
               ) : (

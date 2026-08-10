@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { tools } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const tool = tools.find((t) => t.slug === "image-compressor")!;
 
@@ -190,7 +191,7 @@ function ImagePanel({
       </div>
       <div className="relative flex aspect-video items-center justify-center bg-muted/40">
         {loading ? (
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Skeleton className="h-full w-full" />
         ) : data ? (
           <img src={data.url} alt={label} className="h-full w-full object-contain" />
         ) : (
