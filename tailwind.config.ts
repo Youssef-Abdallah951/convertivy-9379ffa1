@@ -87,11 +87,48 @@ export default {
           from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "blob-a": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "33%": { transform: "translate3d(6%, 8%, 0) scale(1.12)" },
+          "66%": { transform: "translate3d(-5%, 4%, 0) scale(0.94)" },
+        },
+        "blob-b": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "50%": { transform: "translate3d(-8%, 10%, 0) scale(1.15)" },
+        },
+        "blob-c": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1.05)" },
+          "40%": { transform: "translate3d(9%, -7%, 0) scale(0.9)" },
+          "75%": { transform: "translate3d(-6%, -3%, 0) scale(1.1)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        ripple: {
+          "0%": { transform: "scale(0)", opacity: "0.35" },
+          "100%": { transform: "scale(2.6)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.4s ease-out",
+        "gradient-shift": "gradient-shift 18s ease-in-out infinite",
+        "blob-slow": "blob-a 26s ease-in-out infinite",
+        "blob-medium": "blob-b 19s ease-in-out infinite",
+        "blob-fast": "blob-c 14s ease-in-out infinite",
+        float: "float 4s ease-in-out infinite",
+        shimmer: "shimmer 1.8s linear infinite",
+        ripple: "ripple 0.6s ease-out forwards",
       },
     },
   },

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Upload, ImageIcon, Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   onFile: (file: File) => void;
@@ -44,7 +45,7 @@ export function ImageUploader({ onFile, loading, preview }: Props) {
       }`}
     >
       {loading ? (
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <Skeleton className="h-32 w-full max-w-sm rounded-xl" />
       ) : preview ? (
         <img
           src={preview}
