@@ -6,7 +6,7 @@ import { PageTransition } from "./motion/PageTransition";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-background">
+    <div className="relative flex min-h-screen flex-col">
       <AnimatedBackground />
       <Navbar />
       <main className="flex-1">
