@@ -9,6 +9,7 @@ import { tools } from "@/lib/tools";
 import { supabase } from "@/integrations/supabase/client";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { ToolSeo } from "@/components/Seo";
 
 const tool = tools.find((t) => t.slug === "file-to-link")!;
 const MAX_BYTES = 25 * 1024 * 1024; // 25 MB
@@ -74,6 +75,7 @@ const FileToLink = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-3xl py-10 md:py-14">
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 

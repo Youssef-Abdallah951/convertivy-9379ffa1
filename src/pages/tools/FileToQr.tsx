@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ToolSeo } from "@/components/Seo";
 
 const tool = tools.find((t) => t.slug === "file-to-qr")!;
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -87,6 +88,7 @@ const FileToQr = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-4xl py-10 md:py-14">
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 

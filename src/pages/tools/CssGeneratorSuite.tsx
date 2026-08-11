@@ -30,6 +30,7 @@ import {
 import { tools, CREDIT_COST } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { ToolSeo } from "@/components/Seo";
 
 const tool = tools.find((t) => t.slug === "css-generator-suite")!;
 
@@ -452,6 +453,7 @@ const CssGeneratorSuite = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container w-full max-w-6xl overflow-x-hidden py-8 md:py-12">
         <ToolPageHeader title={tool.title} description={tool.description} icon={Paintbrush} />
 

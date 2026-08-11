@@ -34,6 +34,7 @@ import { HowItWorksSection } from "@/components/encoder/HowItWorksSection";
 import { OfficialCyberChefSection } from "@/components/encoder/OfficialCyberChefSection";
 import { CategoriesSection } from "@/components/encoder/CategoriesSection";
 import { DISPLAY_CATEGORIES } from "@/lib/encoderCategories";
+import { ToolSeo } from "@/components/Seo";
 import {
   HASH_META,
   OPERATION_MAP,
@@ -415,6 +416,7 @@ const UniversalEncoderDecoder = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-7xl py-8 md:py-12">
         <div className="mb-8 space-y-6">
           <HowItWorksSection />

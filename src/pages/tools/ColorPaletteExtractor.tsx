@@ -18,6 +18,7 @@ import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialo
 import { PaletteGrid } from "@/components/PaletteGrid";
 import { WebsiteAnalyzer } from "@/components/WebsiteAnalyzer";
 import { ImageUploader } from "@/components/ImageUploader";
+import { ToolSeo } from "@/components/Seo";
 import {
   buildPalette,
   complementary,
@@ -133,6 +134,7 @@ const ColorPaletteExtractor = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-5xl py-10 md:py-14">
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 
