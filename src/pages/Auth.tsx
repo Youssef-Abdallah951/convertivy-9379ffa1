@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { Seo } from "@/components/Seo";
 
 const emailSchema = z.string().trim().email("Please enter a valid email address").max(255);
 const passwordSchema = z.string().min(6, "Password must be at least 6 characters").max(128);
@@ -140,6 +141,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background">
+      <Seo title="Sign In - Convertify" description="Sign in to your Convertify account." path="/auth" noindex />
       <Link to="/" className="flex items-center gap-2 mb-8 font-bold text-xl">
         <span className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary shadow-glow">
           <Sparkles className="h-5 w-5 text-primary-foreground" />

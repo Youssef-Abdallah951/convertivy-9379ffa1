@@ -8,6 +8,7 @@ import { tools } from "@/lib/tools";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { motion, riseItem, staggerContainer, Reveal, RevealGroup } from "@/components/motion/Reveal";
+import { Seo } from "@/components/Seo";
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -29,6 +30,29 @@ const Index = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Convertify - All-in-One Digital Tools"
+        description="Convertify is an all-in-one digital tools platform for file conversion, QR codes, developer utilities, encoding, formatting, productivity tools, and more."
+        path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Convertify",
+            alternateName: "Convertify Digital Tools",
+            url: "https://convertivy.lovable.app/",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Convertify",
+            alternateName: "Convertify Digital Tools",
+            url: "https://convertivy.lovable.app/",
+            description:
+              "Convertify is an all-in-one digital tools platform for file conversion, QR codes, developer utilities, encoding, formatting and productivity tools.",
+          },
+        ]}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/60 gradient-hero">
         <div className="container py-16 md:py-24">
@@ -46,15 +70,20 @@ const Index = () => {
               Free, fast & privacy-friendly
             </motion.span>
             <motion.h1 variants={riseItem} className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
-              All your favorite tools, <br className="hidden md:block" />
-              <span className="text-gradient">in one place.</span>
+              Convertify -{" "}
+              <span className="text-gradient">All-in-One Digital Tools</span>
             </motion.h1>
+            <motion.p variants={riseItem} className="mt-3 text-base font-semibold text-muted-foreground md:text-lg">
+              All-in-One Digital Tools Platform
+            </motion.p>
             <motion.p
               variants={riseItem}
               className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg"
             >
-              A growing collection of beautifully simple web tools for students and developers — no signup required.
+              Convertify brings file conversion, QR codes, developer utilities, encoding, formatting and
+              productivity tools together in one place — no signup required.
             </motion.p>
+
 
             <motion.div variants={riseItem} className="mx-auto mt-8 max-w-xl">
               <div className="relative">

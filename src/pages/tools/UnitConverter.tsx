@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { tools, CREDIT_COST } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
+import { ToolSeo } from "@/components/Seo";
 
 const tool = tools.find((t) => t.slug === "unit-converter")!;
 
@@ -197,6 +198,7 @@ const UnitConverter = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-3xl py-10 md:py-14">
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 

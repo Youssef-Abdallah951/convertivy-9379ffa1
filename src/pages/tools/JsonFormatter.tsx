@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { tools } from "@/lib/tools";
+import { ToolSeo } from "@/components/Seo";
 
 const tool = tools.find((t) => t.slug === "json-formatter")!;
 
@@ -51,6 +52,7 @@ const JsonFormatter = () => {
 
   return (
     <Layout>
+      <ToolSeo slug={tool.slug} name={tool.title} description={tool.description} />
       <div className="container max-w-6xl py-10 md:py-14">
         <ToolPageHeader title={tool.title} description={tool.description} icon={tool.icon} />
 

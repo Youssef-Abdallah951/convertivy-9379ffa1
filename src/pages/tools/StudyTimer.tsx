@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
+import { ToolSeo } from "@/components/Seo";
 
 type Mode = "focus" | "short" | "long";
 
@@ -394,6 +395,11 @@ const StudyTimer = () => {
 
   return (
     <Layout>
+      <ToolSeo
+        slug="study-timer"
+        name="Study Timer (Pomodoro)"
+        description="Fully customizable Pomodoro focus and break timer with stats, sound, and notifications."
+      />
       <div className="container max-w-5xl py-6 md:py-8">
         <ToolPageHeader
           title="Study Timer (Pomodoro)"

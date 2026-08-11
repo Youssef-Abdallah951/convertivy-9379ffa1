@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { getPackage, INSTAPAY_HANDLE, INSTAPAY_HOLDER } from "@/lib/packages";
 import { toast } from "@/hooks/use-toast";
+import { Seo } from "@/components/Seo";
 
 export default function Payment() {
   const { packageId } = useParams<{ packageId: string }>();
@@ -103,6 +104,7 @@ export default function Payment() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title="Payment - Convertify" description="Complete your Convertify credit purchase." path="/payment" noindex />
       <Navbar />
       <main className="container py-8 md:py-12 max-w-3xl">
         <Link to="/pricing" className="inline-flex items-center gap-1 text-sm text-muted-foreground mb-4 hover:text-foreground">
