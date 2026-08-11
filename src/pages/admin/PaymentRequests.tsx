@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { Seo } from "@/components/Seo";
 
 type Request = {
   id: string;
@@ -134,6 +135,7 @@ export default function AdminPaymentRequests() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title="Admin - Convertify" description="Convertify admin payment requests." path="/admin/payments" noindex />
       <Navbar />
       <main className="container py-8 max-w-4xl">
         <h1 className="text-2xl md:text-3xl font-bold mb-1">Payment requests</h1>

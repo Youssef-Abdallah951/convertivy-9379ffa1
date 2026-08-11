@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Seo } from "@/components/Seo";
 
 const passwordSchema = z.string().min(6, "Password must be at least 6 characters").max(128);
 
@@ -56,6 +57,7 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background">
+      <Seo title="Reset Password - Convertify" description="Reset your Convertify account password." path="/reset-password" noindex />
       <Link to="/" className="flex items-center gap-2 mb-8 font-bold text-xl">
         <span className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary shadow-glow">
           <Sparkles className="h-5 w-5 text-primary-foreground" />
