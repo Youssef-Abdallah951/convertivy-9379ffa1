@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { PACKAGES } from "@/lib/packages";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserCredits } from "@/hooks/useUserCredits";
+import { Seo } from "@/components/Seo";
 
 export default function Pricing() {
   const navigate = useNavigate();
@@ -23,6 +24,11 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Pricing & Credits - Convertify"
+        description="Buy Convertify credits to unlock premium digital tools — file conversion, QR codes, encoding, CSS generators and more."
+        path="/pricing"
+      />
       <Navbar />
       <main className="container py-10 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-10">
