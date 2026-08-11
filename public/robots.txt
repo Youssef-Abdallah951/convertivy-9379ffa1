@@ -12,3 +12,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /payment/
+Disallow: /admin/
+
+Sitemap: https://convertivy.lovable.app/sitemap.xml
