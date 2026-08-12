@@ -81,7 +81,7 @@ const Index = () => {
               className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg"
             >
               Convertify brings file conversion, QR codes, developer utilities, encoding, formatting and
-              productivity tools together in one place — no signup required.
+              productivity tools together in one place.
             </motion.p>
 
 
