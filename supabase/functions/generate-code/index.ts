@@ -1,4 +1,6 @@
 // Edge function: generate-code
+import { getAuthenticatedUserId } from "../_shared/auth.ts";
+
 // Uses Lovable AI Gateway to generate, explain, improve, or fix code.
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
