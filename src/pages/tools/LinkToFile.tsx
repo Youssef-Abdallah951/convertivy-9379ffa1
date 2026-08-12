@@ -50,13 +50,20 @@ const LinkToFile = () => {
       setFile(null);
 
       try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        const accessToken = sessionData.session?.access_token;
+        if (!accessToken) {
+          toast.error("Please sign in to use this tool.");
+          throw new Error("Not authenticated");
+        }
+
         const endpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fetch-url-file`;
         const res = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({ url: trimmed }),
         });
