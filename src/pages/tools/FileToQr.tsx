@@ -35,6 +35,12 @@ const FileToQr = () => {
       setQr(null);
       setLoading(true);
       try {
+        const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+        if (file.size > MAX_UPLOAD_BYTES) {
+          toast.error("File too large. Max 50 MB.");
+          throw new Error("File too large");
+        }
+
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         const path = `${crypto.randomUUID()}/${safeName}`;
         const { error } = await supabase.storage
