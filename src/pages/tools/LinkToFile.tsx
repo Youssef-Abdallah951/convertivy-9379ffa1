@@ -9,6 +9,7 @@ import { tools } from "@/lib/tools";
 import { useCreditGuard } from "@/hooks/useCreditGuard";
 import { InsufficientCreditsDialog } from "@/components/InsufficientCreditsDialog";
 import { ToolSeo } from "@/components/Seo";
+import { supabase } from "@/integrations/supabase/client";
 
 const tool = tools.find((t) => t.slug === "link-to-file")!;
 
