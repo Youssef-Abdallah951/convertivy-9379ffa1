@@ -52,6 +52,24 @@ export type Database = {
           },
         ]
       }
+      credit_packages: {
+        Row: {
+          credits_amount: number
+          package: Database["public"]["Enums"]["credit_package"]
+          price_egp: number
+        }
+        Insert: {
+          credits_amount: number
+          package: Database["public"]["Enums"]["credit_package"]
+          price_egp: number
+        }
+        Update: {
+          credits_amount?: number
+          package?: Database["public"]["Enums"]["credit_package"]
+          price_egp?: number
+        }
+        Relationships: []
+      }
       credit_transactions: {
         Row: {
           amount: number
@@ -154,6 +172,21 @@ export type Database = {
         }
         Relationships: []
       }
+      tool_credit_costs: {
+        Row: {
+          cost: number
+          tool_slug: string
+        }
+        Insert: {
+          cost: number
+          tool_slug: string
+        }
+        Update: {
+          cost?: number
+          tool_slug?: string
+        }
+        Relationships: []
+      }
       user_credits: {
         Row: {
           credits: number
@@ -218,7 +251,7 @@ export type Database = {
         Returns: undefined
       }
       spend_credits: {
-        Args: { _amount: number; _tool_slug?: string }
+        Args: { _amount?: number; _tool_slug?: string }
         Returns: number
       }
     }

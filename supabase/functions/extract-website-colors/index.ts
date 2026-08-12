@@ -4,7 +4,33 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+import { getAuthenticatedUserId } from "../_shared/auth.ts";
+
 type RGB = { r: number; g: number; b: number };
+
+const BLOCKED_IP =
+  /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.|100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.|::1$|::$|fe80|fc|fd)/i;
+
+/** Blocks loopback/private/link-local targets to prevent SSRF. */
+async function isBlockedUrl(target: URL): Promise<boolean> {
+  const host = target.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  if (!["http:", "https:"].includes(target.protocol)) return true;
+  if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".internal") || host.endsWith(".local")) {
+    return true;
+  }
+  if (BLOCKED_IP.test(host)) return true;
+
+  const ips: string[] = [];
+  for (const type of ["A", "AAAA"] as const) {
+    try {
+      ips.push(...(await Deno.resolveDns(host, type)));
+    } catch {
+      // ignore per-record-type failures
+    }
+  }
+  if (ips.length === 0) return true;
+  return ips.some((ip) => BLOCKED_IP.test(ip));
+}
 
 const NAMED: Record<string, RGB> = {
   black: { r: 0, g: 0, b: 0 },
@@ -65,6 +91,9 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    const userId = await getAuthenticatedUserId(req);
+    if (!userId) return json({ error: "Unauthorized" }, 401);
+
     const { url } = await req.json();
     if (!url || typeof url !== "string") {
       return json({ error: "Missing 'url'." }, 400);
@@ -79,9 +108,12 @@ Deno.serve(async (req) => {
     if (!["http:", "https:"].includes(parsed.protocol)) {
       return json({ error: "Only http(s) URLs are supported." }, 400);
     }
+    if (await isBlockedUrl(parsed)) {
+      return json({ error: "URL not allowed." }, 400);
+    }
 
     const res = await fetch(parsed.toString(), {
-      redirect: "follow",
+      redirect: "manual",
       headers: { "User-Agent": "Mozilla/5.0 (compatible; ConvertifyColorBot/1.0)" },
     });
     if (!res.ok) return json({ error: `Failed to fetch site (status ${res.status}).` }, 502);
@@ -97,8 +129,12 @@ Deno.serve(async (req) => {
     await Promise.all(
       cssLinks.map(async (href) => {
         try {
-          const cssUrl = new URL(href, parsed).toString();
-          const r = await fetch(cssUrl, { headers: { "User-Agent": "ConvertifyColorBot/1.0" } });
+          const cssUrl = new URL(href, parsed);
+          if (await isBlockedUrl(cssUrl)) return;
+          const r = await fetch(cssUrl.toString(), {
+            redirect: "manual",
+            headers: { "User-Agent": "ConvertifyColorBot/1.0" },
+          });
           if (r.ok) collectColors(await r.text(), counts);
         } catch {
           // ignore individual stylesheet failures
