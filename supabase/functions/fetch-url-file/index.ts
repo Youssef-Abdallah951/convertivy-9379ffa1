@@ -1,3 +1,5 @@
+import { getAuthenticatedUserId } from "../_shared/auth.ts";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -30,12 +32,40 @@ function filenameFromUrl(url: string, contentDisposition: string | null): string
   return "download";
 }
 
+const BLOCKED_IP = /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.|::1$|::$|fe80|fc|fd)/i;
+const BLOCKED_HOST = /^(localhost|\[?::1\]?|0\.0\.0\.0|.*\.local|.*\.internal)$/i;
+
+async function isBlockedHost(hostname: string): Promise<boolean> {
+  const host = hostname.replace(/^\[|\]$/g, "");
+  if (BLOCKED_HOST.test(host)) return true;
+  if (/^[0-9.]+$/.test(host) || host.includes(":")) return BLOCKED_IP.test(host);
+
+  const records: string[] = [];
+  for (const type of ["A", "AAAA"] as const) {
+    try {
+      records.push(...(await Deno.resolveDns(host, type)));
+    } catch {
+      // ignore individual lookup failures
+    }
+  }
+  if (records.length === 0) return true; // unresolvable -> reject
+  return records.some((ip) => BLOCKED_IP.test(ip));
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    const userId = await getAuthenticatedUserId(req);
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { url } = await req.json();
 
     if (!url || typeof url !== "string") {
@@ -62,10 +92,24 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (await isBlockedHost(parsed.hostname)) {
+      return new Response(JSON.stringify({ error: "URL not allowed." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const upstream = await fetch(parsed.toString(), {
-      redirect: "follow",
+      redirect: "manual",
       headers: { "User-Agent": "SmartTools-LinkToFile/1.0" },
     });
+
+    if (upstream.status >= 300 && upstream.status < 400) {
+      return new Response(JSON.stringify({ error: "Redirects are not supported." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     if (!upstream.ok || !upstream.body) {
       return new Response(
