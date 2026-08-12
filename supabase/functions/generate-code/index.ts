@@ -1,4 +1,6 @@
 // Edge function: generate-code
+import { getAuthenticatedUserId } from "../_shared/auth.ts";
+
 // Uses Lovable AI Gateway to generate, explain, improve, or fix code.
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -39,6 +41,14 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const userId = await getAuthenticatedUserId(req);
+    if (!userId) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const { prompt, language, action } = await req.json();
 
     if (!prompt || typeof prompt !== "string" || prompt.trim().length < 5) {
