@@ -12,6 +12,7 @@ import {
   Palette,
   ScanLine,
   Paintbrush,
+  ShieldAlert,
   
   
   type LucideIcon,
@@ -162,6 +163,18 @@ export const tools: Tool[] = [
       "polygon", "design", "frontend", "styles",
     ],
     premium: true,
+  },,
+  {
+    slug: "digital-risk-scanner",
+    title: "Digital Risk Scanner",
+    description:
+      "Scan files, URLs, text, and images for security, privacy, phishing, and social-engineering risks.",
+    icon: ShieldAlert,
+    category: "Utilities",
+    keywords: [
+      "security", "privacy", "phishing", "scam", "risk", "scanner", "malware",
+      "metadata", "exif", "pii", "social engineering", "url checker", "safety",
+    ],
+    premium: true,
   },
 ];
-

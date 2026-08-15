@@ -27,6 +27,7 @@ const StudyTimer = lazy(() => import("./pages/tools/StudyTimer.tsx"));
 const UniversalEncoderDecoder = lazy(() => import("./pages/tools/UniversalEncoderDecoder.tsx"));
 const ColorPaletteExtractor = lazy(() => import("./pages/tools/ColorPaletteExtractor.tsx"));
 const CssGeneratorSuite = lazy(() => import("./pages/tools/CssGeneratorSuite.tsx"));
+const DigitalRiskScanner = lazy(() => import("./pages/tools/DigitalRiskScanner.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => (
                 <Route path="/tools/universal-encoder" element={<UniversalEncoderDecoder />} />
                 <Route path="/tools/color-palette-extractor" element={<ColorPaletteExtractor />} />
                 <Route path="/tools/css-generator-suite" element={<CssGeneratorSuite />} />
+                <Route path="/tools/digital-risk-scanner" element={<DigitalRiskScanner />} />
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
