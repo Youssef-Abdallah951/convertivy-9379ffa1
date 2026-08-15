@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.extract-website-colors]
 verify_jwt = false
+
+[functions.scan-image-text]
+verify_jwt = false
+
+[functions.scan-url-probe]
+verify_jwt = false

@@ -24,6 +24,7 @@ const toolSlugs = [
   "universal-encoder",
   "color-palette-extractor",
   "css-generator-suite",
+  "digital-risk-scanner",
 ];
 
 const entries: SitemapEntry[] = [
