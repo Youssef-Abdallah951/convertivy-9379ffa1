@@ -203,7 +203,7 @@ const DigitalRiskScanner = () => {
   const scanFile = () => {
     if (!file) return toast.error("Choose a file to scan.");
     const check = validateFile(file);
-    if (!check.ok) return toast.error(check.reason);
+    if (check.ok === false) return toast.error(check.reason);
     return run(async () => {
       const { result: scan } = await analyzeFile(file);
       return scan;
@@ -234,7 +234,7 @@ const DigitalRiskScanner = () => {
   const scanImage = () => {
     if (!image) return toast.error("Choose an image to scan.");
     const check = validateImage(image);
-    if (!check.ok) return toast.error(check.reason);
+    if (check.ok === false) return toast.error(check.reason);
     return run(async () => {
       try {
         const { result: scan, ocr: extracted } = await analyzeImage(image);
