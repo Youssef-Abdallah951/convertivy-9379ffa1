@@ -163,7 +163,7 @@ export const tools: Tool[] = [
       "polygon", "design", "frontend", "styles",
     ],
     premium: true,
-  },,
+  },
   {
     slug: "digital-risk-scanner",
     title: "Digital Risk Scanner",
