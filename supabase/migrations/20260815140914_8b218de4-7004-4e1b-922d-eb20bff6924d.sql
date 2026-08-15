@@ -1,0 +1,1 @@
+INSERT INTO public.tool_credit_costs (tool_slug, cost) VALUES ('digital-risk-scanner', 2) ON CONFLICT (tool_slug) DO UPDATE SET cost = 2;
