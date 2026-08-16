@@ -37,21 +37,16 @@ const Index = () => {
         jsonLd={[
           {
             "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Convertify",
-            alternateName: "Convertify Digital Tools",
-            url: "https://convertivy.lovable.app/",
-          },
-          {
-            "@context": "https://schema.org",
             "@type": "Organization",
             name: "Convertify",
-            alternateName: "Convertify Digital Tools",
+            alternateName: "Convertify",
             url: "https://convertivy.lovable.app/",
+            logo: "https://convertivy.lovable.app/favicon.png",
             description:
               "Convertify is an all-in-one digital tools platform for file conversion, QR codes, developer utilities, encoding, formatting and productivity tools.",
           },
         ]}
+
       />
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/60 gradient-hero">
